@@ -1,3 +1,11 @@
+# Robo Vikings 9887
+This repo is a fork of the official FTC_APP 2016.
+We will be coding and collaborating in this repo.
+Please make sure to clone this repository, so that your local development code is tracking into this one and branches can be made, pull requests requested etc.
+
+Thanks!
+
+
 # ftc_app
 FTC Android Studio project to create FTC Robot Controller app.
 
