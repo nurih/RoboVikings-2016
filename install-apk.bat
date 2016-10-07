@@ -2,4 +2,4 @@ adb push TeamCode\build\outputs\apk\TeamCode-debug.apk /data/local/tmp/com.qualc
 
 @echo Hit any key to exit
 
-pause
+@pause
