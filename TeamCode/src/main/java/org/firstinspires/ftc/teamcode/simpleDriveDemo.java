@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@TeleOp(name="Drive 2 motors",group = "tesst")
+@TeleOp(name = "Drive 2 motors", group = "test")
 public class simpleDriveDemo extends OpMode {
 
     DcMotor leftMotor;
@@ -13,7 +13,7 @@ public class simpleDriveDemo extends OpMode {
 
     /**
      * User defined init method
-     * <p>
+     * <p/>
      * This method will be called once when the INIT button is pressed.
      */
     @Override
@@ -30,7 +30,7 @@ public class simpleDriveDemo extends OpMode {
 
     /**
      * User defined loop method
-     * <p>
+     * <p/>
      * This method will be called repeatedly in a loop while this op mode is running
      */
     @Override
