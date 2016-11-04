@@ -1,4 +1,4 @@
-//package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -12,14 +12,14 @@ public class BeaconAtonomisSensor extends OpMode {
     public ColorSensor color = null;
     @Override
     public void init() {
-        color = hardwareMap.colorSensor.get("colorS");
+        color = hardwareMap.colorSensor.get("colorsensor1");
     }
 
     @Override
     public void loop() {
-        if (color.red();) {
+        if (color.red() > 1) {
             //red
-        } else if (color.blue();) {
+        } else if (color.blue() > 1) {
             //blue
             }
         }
