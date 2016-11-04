@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 /**
  * Created by Jennifer on 10/7/2016.
  */
-@TeleOp(name = "Flipper Revolutionized, hey everybody", group = "Test")
+@TeleOp(name = "Flipper", group = "Test")
 public class Flipper_Revolutionized extends OpMode {
 
     private final double startingPosition = 0.0;
