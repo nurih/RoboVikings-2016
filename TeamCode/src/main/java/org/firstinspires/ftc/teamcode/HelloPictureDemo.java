@@ -42,47 +42,25 @@ public class HelloPictureDemo extends OpMode {
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
-        VuforiaTrackables stonesAndChips = this.vuforia.loadTrackablesFromAsset("StonesAndChips");
-        VuforiaTrackable redTarget = stonesAndChips.get(0);
-        redTarget.setName("RedTarget");  // Stones
+        VuforiaTrackables trackables = this.vuforia.loadTrackablesFromAsset("FTC_2016-17");
 
-        VuforiaTrackable blueTarget = stonesAndChips.get(1);
-        blueTarget.setName("BlueTarget");  // Chips
+        trackables.get(0).setName("Wheels");
+        trackables.get(1).setName("Toools");
+        trackables.get(2).setName("Legos");
+        trackables.get(3).setName("Gears");
 
-
-        allTrackables.addAll(stonesAndChips);
+        allTrackables.addAll(trackables);
 
         float mmPerInch = 25.4f;
         float mmBotWidth = 18 * mmPerInch;            // ... or whatever is right for your robot
-        float mmFTCFieldWidth = (12 * 12 - 2) * mmPerInch;   // the FTC field is ~11'10" center-to-center of the glass panels
+        float fieldWidthMM = (12 * 12 - 2) * mmPerInch;   // the FTC field is ~11'10" center-to-center of the glass panels
 
 
-        OpenGLMatrix redTargetLocationOnField = OpenGLMatrix
-                /* Then we translate the target off to the RED WALL. Our translation here
-                is a negative translation in X.*/
-                .translation(-mmFTCFieldWidth / 2, 0, 0)
-                .multiplied(Orientation.getRotationMatrix(
-                        /* First, in the fixed (field) coordinate system, we rotate 90deg in X, then 90 in Z */
-                        AxesReference.EXTRINSIC, AxesOrder.XZX,
-                        AngleUnit.DEGREES, 90, 90, 0));
-        redTarget.setLocation(redTargetLocationOnField);
-        RobotLog.ii(TAG, "Red Target=%s", redTargetLocationOnField.formatAsTransform());
+        AssignTrackableImageLocation(trackables.get(0), -fieldWidthMM / 2, 0, AxesOrder.XZX, 90, 90);
+        AssignTrackableImageLocation(trackables.get(1), 600 - fieldWidthMM / 2, 0, AxesOrder.XZX, 90, 90);
+        AssignTrackableImageLocation(trackables.get(2), 0, fieldWidthMM / 2, AxesOrder.XZX, 90, 0);
+        AssignTrackableImageLocation(trackables.get(2), 0, 60 + fieldWidthMM / 2, AxesOrder.XZX, 90, 0);
 
-       /*
-        * To place the Stones Target on the Blue Audience wall:
-        * - First we rotate it 90 around the field's X axis to flip it upright
-        * - Finally, we translate it along the Y axis towards the blue audience wall.
-        */
-        OpenGLMatrix blueTargetLocationOnField = OpenGLMatrix
-                /* Then we translate the target off to the Blue Audience wall.
-                Our translation here is a positive translation in Y.*/
-                .translation(0, mmFTCFieldWidth / 2, 0)
-                .multiplied(Orientation.getRotationMatrix(
-                        /* First, in the fixed (field) coordinate system, we rotate 90deg in X */
-                        AxesReference.EXTRINSIC, AxesOrder.XZX,
-                        AngleUnit.DEGREES, 90, 0, 0));
-        blueTarget.setLocation(blueTargetLocationOnField);
-        RobotLog.ii(TAG, "Blue Target=%s", blueTargetLocationOnField.formatAsTransform());
 
         /**
          * Create a transformation matrix describing where the phone is on the robot. Here, we
@@ -108,8 +86,9 @@ public class HelloPictureDemo extends OpMode {
          * listener is a {@link VuforiaTrackableDefaultListener} and can so safely cast because
          * we have not ourselves installed a listener of a different type.
          */
-        ((VuforiaTrackableDefaultListener) redTarget.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
-        ((VuforiaTrackableDefaultListener) blueTarget.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
+        for (int i = 0; i < 3; i++) {
+            ((VuforiaTrackableDefaultListener) trackables.get(i).getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
+        }
 
         /**
          * A brief tutorial: here's how all the math is going to work:
@@ -131,9 +110,19 @@ public class HelloPictureDemo extends OpMode {
          */
 
 
-        stonesAndChips.activate();
-        telemetry.addLine("Initialized... I can see now!");
+        trackables.activate();
+        telemetry.addLine("Initialized... I can see now! And I like Waffles");
         telemetry.update();
+    }
+
+    private void AssignTrackableImageLocation(VuforiaTrackable trackable, float translationDx, float translationDy, AxesOrder axesOrder, int firstAngle, int secondAngle) {
+        OpenGLMatrix redTargetLocationOnField = OpenGLMatrix
+                .translation(translationDx, translationDy, 0)
+                .multiplied(Orientation.getRotationMatrix(
+                        AxesReference.EXTRINSIC, axesOrder,
+                        AngleUnit.DEGREES, firstAngle, secondAngle, 0));
+        trackable.setLocation(redTargetLocationOnField);
+        RobotLog.ii(TAG, "%s =%s", trackable.getName(), redTargetLocationOnField.formatAsTransform());
     }
 
     /**
@@ -166,6 +155,10 @@ public class HelloPictureDemo extends OpMode {
             telemetry.addData("Pos", "Unknown");
         }
         telemetry.update();
+    }
+
+    @Override public void stop(){
+
     }
 }
 

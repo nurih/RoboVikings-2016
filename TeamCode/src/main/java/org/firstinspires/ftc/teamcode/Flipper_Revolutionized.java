@@ -7,9 +7,7 @@ import com.qualcomm.robotcore.robocol.TelemetryMessage;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-/**
- * Created by Jennifer on 10/7/2016.
- */
+
 @TeleOp(name = "Flipper Revolutionized, hey everybody", group = "Test")
 public class Flipper_Revolutionized extends OpMode {
 
@@ -20,23 +18,23 @@ public class Flipper_Revolutionized extends OpMode {
 
     @Override
     public void init() {
-
         servo1 = hardwareMap.servo.get("flipper1");
+
         servo1.setPosition(startingPosition);
         servo2 = hardwareMap.servo.get("flipper2");
-        servo2.setPosition(startingPosition);
+        servo2.setPosition(finalPosition);
 
     }
 
     @Override
     public void loop() {
-        telemetry.addLine(String.format("Bumper: ", gamepad1.right_bumper));
+        telemetry.addLine(String.format("Bumper: ", gamepad2.right_bumper));
         if (gamepad2.left_bumper) {
             servo1.setPosition(finalPosition);
-            servo2.setPosition(finalPosition);
+            servo2.setPosition(startingPosition);
         } else {
             servo1.setPosition(startingPosition);
-            servo1.setPosition(startingPosition);
+            servo2.setPosition(finalPosition);
         }
     }
 }
