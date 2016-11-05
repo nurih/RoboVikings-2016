@@ -15,19 +15,21 @@ public class Competition1TeleOp extends OpMode {
     public void init() {
 
         // collect some op modes and add them to the list
+        telemetry.addLine("Adding mini op modes to list");
         opModeList.add(new Drive());
         opModeList.add(new Flippers());
         opModeList.add(new Forklift());
         opModeList.add(new ParticleElevator());
 
-
+        telemetry.addLine("calling init() on mini op modes");
         // call individual init methods on each op mode
         for (OpMode opMode : opModeList) {
+            telemetry.addLine("init:: " + opMode.toString());
             opMode.init();
         }
     }
 
-    @Override
+   /* @Override
     public void stop() {
         for (OpMode opMode : opModeList) {
             opMode.stop();
@@ -39,7 +41,7 @@ public class Competition1TeleOp extends OpMode {
         for (OpMode opMode : opModeList) {
             opMode.start();
         }
-    }
+    }*/
 
     @Override
     public void loop() {
