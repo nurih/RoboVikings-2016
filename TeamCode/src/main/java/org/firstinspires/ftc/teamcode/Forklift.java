@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 /**
  * Created by Jason on 10/28/2016.
  */
-@TeleOp(name = "Lift", group = "test")
-public class Jason extends OpMode {
+@TeleOp(name = "Forklift", group = "Mini Op")
+public class Forklift extends OpMode {
 
     DcMotor motor;
 
