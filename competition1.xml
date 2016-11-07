@@ -4,9 +4,15 @@
         <Motor name="lmotor" port="1" />
         <Motor name="rmotor" port="2" />
     </MotorController>
+    <MotorController name="Motor Controller 2" serialNumber="A104OQ3R">
+        <Motor name="forkliftmotor" port="1" />
+        <Motor name="windermotor" port="2" />
+    </MotorController>
+    <!--elevatormotor  needs extra motor controller -->
     <ServoController name="Servo Controller 1" serialNumber="AL00VTN6">
-        <Servo name="flipper1" port="1" />
-        <Servo name="flipper2" port="2" />
+        <Servo name="lflipperservo" port="1" />
+        <Servo name="rflipperservo" port="2" />
+        <Servo name="scoopservo" port="3" />
     </ServoController>
 </Robot>
 

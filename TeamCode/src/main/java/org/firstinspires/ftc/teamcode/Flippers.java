@@ -5,21 +5,23 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@TeleOp(name = "Flippers", group = "Test")
+@TeleOp(name = "Flippers", group = "Mini Op")
 public class Flippers extends OpMode {
 
     private final double startingPosition = 0.25;
     private final int finalPosition = 1;
-    public Servo servo1 = null;
-    public Servo servo2 = null;
+
+    public Servo leftFlipper = null;
+    public Servo rightFlipper = null;
 
     @Override
     public void init() {
 
-        servo1 = hardwareMap.servo.get("flipper1");
-        servo1.setPosition(startingPosition);
-        servo2 = hardwareMap.servo.get("flipper2");
-        servo2.setPosition(startingPosition);
+        leftFlipper = TeamShared.getRobotPart(hardwareMap, RobotPart.lflipperservo);
+        leftFlipper.setPosition(startingPosition);
+
+        rightFlipper = TeamShared.getRobotPart(hardwareMap, RobotPart.rflipperservo);
+        rightFlipper.setPosition(startingPosition);
 
     }
 
@@ -27,11 +29,11 @@ public class Flippers extends OpMode {
     public void loop() {
 
         if (gamepad1.right_bumper) {
-            servo1.setPosition(finalPosition);
-            servo2.setPosition(finalPosition);
+            leftFlipper.setPosition(finalPosition);
+            rightFlipper.setPosition(finalPosition);
         } else {
-            servo1.setPosition(startingPosition);
-            servo1.setPosition(startingPosition);
+            leftFlipper.setPosition(startingPosition);
+            leftFlipper.setPosition(startingPosition);
         }
     }
 }

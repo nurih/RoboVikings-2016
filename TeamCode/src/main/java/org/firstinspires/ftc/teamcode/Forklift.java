@@ -33,6 +33,6 @@ public class Forklift extends OpMode {
      */
     @Override
     public void loop() {
-        motor.setPower(this.gamepad1.right_stick_y);
+        motor.setPower(this.gamepad2.left_stick_y);
     }
 }

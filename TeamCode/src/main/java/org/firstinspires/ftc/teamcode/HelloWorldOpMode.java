@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 @TeleOp(name = "Hello World", group = "Demos")
@@ -13,8 +14,9 @@ public class HelloWorldOpMode extends OpMode {
      */
     @Override
     public void init() {
-        telemetry.addLine(String.format("Starting Op Mode!%s", getRuntime()));
+        telemetry.addLine("Starting Op Mode!");
         telemetry.update();
+        DcMotor m = TeamShared.getRobotPart(hardwareMap, RobotPart.lmotor);
     }
 
     /**
@@ -25,13 +27,7 @@ public class HelloWorldOpMode extends OpMode {
     @Override
     public void loop() {
 
-        telemetry.addLine(String.format("LoopetiLoop!%s", getRuntime()));
-        telemetry.update();
-    }
+        telemetry.addLine("Looping");
 
-    @Override
-    public void stop() {
-        telemetry.addLine("Stopping Op Mode!");
-        telemetry.update();
     }
 }
