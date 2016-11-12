@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Experiments;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -32,9 +32,9 @@ public class TheAuto extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addLine(String.format("Right Encoder: ", rightMotor.getCurrentPosition()));
+        telemetry.addLine(String.format("Right Encoder: %s", rightMotor.getCurrentPosition()));
         telemetry.update();
-        telemetry.addLine(String.format("Left Encoder: ", leftMotor.getCurrentPosition()));
+        telemetry.addLine(String.format("Left Encoder: %s", leftMotor.getCurrentPosition()));
         telemetry.update();
         leftMotor.setPower(.05);
         rightMotor.setPower(-.05);

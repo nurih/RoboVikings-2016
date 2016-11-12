@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Experiments;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
+
 enum State{
     INITIALIZE , MOVE , CHECK1 , TURN, CHECK2 , STOP
 }
@@ -21,7 +21,7 @@ public class Try2 extends OpMode {
         rightMotor  = hardwareMap.dcMotor.get("rmotor");
         leftMotor.setPower(0);
         rightMotor.setPower(0);
-        telemetry.addLine(String.format("Runtime: " + getRuntime()));
+        telemetry.addLine(String.format("Runtime: %s", getRuntime()));
         telemetry.update();
             }
     @Override

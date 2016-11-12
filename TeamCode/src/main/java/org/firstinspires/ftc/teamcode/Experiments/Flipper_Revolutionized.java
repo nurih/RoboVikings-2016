@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Experiments;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -28,7 +28,7 @@ public class Flipper_Revolutionized extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addLine(String.format("Bumper: ", gamepad2.right_bumper));
+        telemetry.addLine(String.format("Bumper: %s", gamepad2.right_bumper));
         if (gamepad2.left_bumper) {
             servo1.setPosition(finalPosition);
             servo2.setPosition(startingPosition);
