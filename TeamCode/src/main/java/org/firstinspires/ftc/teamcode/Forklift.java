@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class Forklift extends OpMode {
 
     DcMotor motor;
-
     /**
      * User defined init method
      * <p/>
@@ -21,8 +20,9 @@ public class Forklift extends OpMode {
     @Override
     public void init() {
         telemetry.addLine("Initializing!");
-        motor = hardwareMap.dcMotor.get("liftmotor");
+        motor = TeamShared.getRobotPart(hardwareMap, RobotPart.forkliftmotor);
         motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor.setPower(0);
     }
 
@@ -33,6 +33,7 @@ public class Forklift extends OpMode {
      */
     @Override
     public void loop() {
+
         motor.setPower(this.gamepad2.left_stick_y);
     }
 }

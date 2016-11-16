@@ -17,6 +17,7 @@ public class Winder extends OpMode {
     public void init() {
         winderMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.windermotor);
         winderMotor.setDirection(DcMotor.Direction.FORWARD);
+        winderMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         winderMotor.setPower(0);
     }
 

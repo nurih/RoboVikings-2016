@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -37,6 +38,16 @@ public enum RobotPart {
     elevatormotor(DcMotor.class),
 
     /*
+    * Upper elevator touch sensor
+    * */
+    elevatortouchlower(TouchSensor.class),
+
+    /*
+    * Lower elevator touch sensor
+    * */
+    elevatortouchupper(TouchSensor.class),
+
+    /*
     * Left Flipper Servo
     * */
     lflipperservo(Servo.class),
@@ -46,16 +57,14 @@ public enum RobotPart {
     rflipperservo(Servo.class),
 
     /*
-    * Elevator Motor top limit switch
-    * */
-    elevatorlimitswitch(TouchSensor.class),
-
-    /*
     * Elevator Scoop
     * */
     scoopservo(Servo.class),
 
-    ;
+    /*
+    * Color Sensor
+    * */
+    colorsensor(ColorSensor.class);
 
     private Class<? extends HardwareDevice> _partType;
 

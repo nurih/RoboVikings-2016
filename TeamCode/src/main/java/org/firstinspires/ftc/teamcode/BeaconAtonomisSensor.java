@@ -1,32 +1,36 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-@TeleOp(name = "Beacon Color Sensor", group = "Mini Ops")
 
+@TeleOp(name = "Beacon Color Sensor", group = "Mini Ops")
 public class BeaconAtonomisSensor extends OpMode {
-    public ColorSensor color = null;
+    private final int colorThreshold = 128;
+    public ColorSensor colorSensor = null;
 
     @Override
     public void init() {
 
-        color = hardwareMap.colorSensor.get("colorsensor1");
-        //passive mode
-        color.enableLed(false);
+        colorSensor = TeamShared.getRobotPart(hardwareMap, RobotPart.colorsensor);
+
+        colorSensor.enableLed(false);
+
+        telemetry.addData("Initialized color sensor threshold %s", colorSensor.getManufacturer());
+        telemetry.addData("Initialized color sensor threshold %s", colorThreshold);
     }
 
     @Override
     public void loop() {
-        if (color.red() > 128) {
+        telemetry.addData("Red", colorSensor.red());
+        telemetry.addData("Blue", colorSensor.blue());
+        if (colorSensor.red() > colorThreshold) {
             //red
             telemetry.addLine("Red Works");
-        } else if (color.blue() > 128) {
+        } else if (colorSensor.blue() > colorThreshold) {
             //blue
             telemetry.addLine("Blue Works");
         }
-
     }
 }
 

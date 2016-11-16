@@ -16,11 +16,16 @@ public class Drive extends OpMode {
 
         rightMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.lmotor);
 
-        telemetry.addLine("Initializing lmotor and rmotor");
+
         leftMotor.setDirection(DcMotor.Direction.FORWARD);
+        leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftMotor.setPower(0);
-        leftMotor.setDirection(DcMotor.Direction.REVERSE);
+
+        rightMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightMotor.setPower(0);
+
+        telemetry.addLine(String.format("Initializing %s  and %s",RobotPart.lmotor, RobotPart.rmotor));
     }
 
     @Override
