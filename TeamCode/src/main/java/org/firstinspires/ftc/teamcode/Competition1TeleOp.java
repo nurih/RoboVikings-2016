@@ -19,8 +19,25 @@ public class Competition1TeleOp extends OpMode {
         op.gamepad1 = this.gamepad1;
         op.gamepad2 = this.gamepad2;
 
+        if (tryInit(op)) {
+            opModeList.add(op);
+        } else {
+            telemetry.addLine("OP MODE IS NOT USABLE!!!" + op.toString());
+        }
+    }
 
-        opModeList.add(op);
+    private boolean tryInit(OpMode opMode) {
+        telemetry.addLine("Calling init() -> " + opMode.toString());
+        telemetry.update();
+
+        try {
+            opMode.init();
+            return true;
+        } catch (Exception e) {
+            telemetry.addLine("FAILED init() on " + opMode.getClass().getSimpleName());
+            telemetry.addData("Exception: ", e);
+            return false;
+        }
     }
 
     @Override
@@ -28,7 +45,6 @@ public class Competition1TeleOp extends OpMode {
 
         // collect some op modes and add them to the list
         telemetry.addLine("Adding mini op modes to list");
-        telemetry.update();
 
 
         addOpMode(new Drive());
@@ -37,21 +53,11 @@ public class Competition1TeleOp extends OpMode {
         addOpMode(new Elevator());
         addOpMode(new Winder());
 
-        telemetry.addLine("calling init() on mini op modes");
-        telemetry.update();
-        // call individual init methods on each op mode
-        for (OpMode opMode : opModeList) {
-            telemetry.addLine("init:: " + opMode.toString());
-            telemetry.update();
 
-            try {
-                opMode.init();
-            } catch (Exception e) {
-                telemetry.addLine("failed init() on " + opMode.getClass().getSimpleName());
-                telemetry.addData("Exception: ", e);
-            }
-        }
+        telemetry.update();
+
     }
+
 
     @Override
     public void loop() {
