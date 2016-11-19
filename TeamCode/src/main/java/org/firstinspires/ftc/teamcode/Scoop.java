@@ -1,12 +1,9 @@
-package org.firstinspires.ftc.teamcode.Experiments;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.teamcode.RobotPart;
-import org.firstinspires.ftc.teamcode.TeamShared;
 
 @Disabled
 @TeleOp(name = "Scoop", group = "Mini Ops")
@@ -24,7 +21,7 @@ public class Scoop extends OpMode {
 
     @Override
     public void loop() {
-        if (gamepad2.right_bumper) {
+        if (gamepad2.a) {
             scoopServo.setPosition(finalPosition);
         } else {
             scoopServo.setPosition(startingPosition);

@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 /**
  * Created by Jennifer on 10/29/2016.
  */
-@Autonomous(name = "linefollow" , group = "test")
-public class line_follow extends OpMode{
+@Autonomous(name = "Line Follow", group = "test")
+public class line_follow extends OpMode {
     private final int noPower = 0;
     private final double lowPower = 0.2;
     private final double lightLevel = 0.5;
@@ -21,9 +21,10 @@ public class line_follow extends OpMode{
 
     @Override
     public void init() {
-        rightMotor = hardwareMap.dcMotor.get("rmotor");
-        leftMotor = hardwareMap.dcMotor.get("lmotor");
-        bumper = hardwareMap.touchSensor.get("bumper");
+        rightMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.rmotor);
+
+        leftMotor =TeamShared.getRobotPart(hardwareMap, RobotPart.lmotor);
+        bumper = TeamShared.getRobotPart(hardwareMap, RobotPart.walltouchsensor);
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor.setPower(noPower);
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -44,8 +45,7 @@ public class line_follow extends OpMode{
             if (lineFollower.getLightDetected() >= lightLevel) {
                 leftMotor.setPower(lowPower);
                 rightMotor.setPower(noPower);
-            } else
-            {
+            } else {
                 leftMotor.setPower(noPower);
                 rightMotor.setPower(lowPower);
             }

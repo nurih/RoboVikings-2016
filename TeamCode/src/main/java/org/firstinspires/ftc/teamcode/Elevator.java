@@ -28,14 +28,16 @@ public class Elevator extends OpMode {
     public void loop() {
         if (upperTouchSensor.isPressed() || lowerTouchSensor.isPressed()) {
 
-            elevatorMotor.setPower(0);
-            telemetry.addLine("Limit Reached - not moving");
+            // go back a bit.
+            elevatorMotor.setPower(-this.gamepad2.right_stick_y / 20);
+
+            telemetry.addLine("Limit Reached - not going more");
 
         } else {
 
             elevatorMotor.setPower(this.gamepad2.right_stick_y);
-            telemetry.addData("Stick position", this.gamepad2.right_stick_y);
 
+            telemetry.addData("Stick position", this.gamepad2.right_stick_y);
         }
     }
 }

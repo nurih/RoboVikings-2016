@@ -12,6 +12,8 @@ public class Beacon extends OpMode {
     private final double change = 0.3;
     private ColorSensor colorSensor = null;
     private Servo beaconPusher = null;
+    private int blueThreshold =4;
+    private int redThreshold = 5;
 
     @Override
     public void init() {
@@ -33,11 +35,11 @@ public class Beacon extends OpMode {
     @Override
     public void loop() {
 
-        if (colorSensor.blue() > 5) {
+        if (colorSensor.blue() > blueThreshold) {
             //blue
             telemetry.addLine("Seeing Blue");
             beaconPusher.setPosition(initialPosition - change);
-        } else if (colorSensor.red() > 7) {
+        } else if (colorSensor.red() > redThreshold) {
             // red
             telemetry.addLine("Seeing Red");
             beaconPusher.setPosition(initialPosition + change);

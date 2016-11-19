@@ -57,7 +57,7 @@ public enum RobotPart {
     rflipperservo(Servo.class),
 
     /*
-    * Elevator Scoop
+    * Elevator ball Scoop
     * */
     scoopservo(Servo.class),
 

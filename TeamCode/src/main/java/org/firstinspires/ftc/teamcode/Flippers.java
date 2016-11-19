@@ -21,19 +21,23 @@ public class Flippers extends OpMode {
         leftFlipper.setPosition(startingPosition);
 
         rightFlipper = TeamShared.getRobotPart(hardwareMap, RobotPart.rflipperservo);
-        rightFlipper.setPosition(startingPosition);
+        rightFlipper.setPosition(finalPosition);
 
     }
 
     @Override
     public void loop() {
 
-        if (gamepad1.right_bumper) {
+        if (gamepad1.left_bumper) {
             leftFlipper.setPosition(finalPosition);
-            rightFlipper.setPosition(finalPosition);
         } else {
             leftFlipper.setPosition(startingPosition);
-            leftFlipper.setPosition(startingPosition);
+        }
+
+        if (gamepad1.right_bumper) {
+            rightFlipper.setPosition(startingPosition);
+        } else {
+            rightFlipper.setPosition(finalPosition);
         }
     }
 }
