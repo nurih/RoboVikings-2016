@@ -15,7 +15,7 @@ public class Elevator extends OpMode {
     public void init() {
         telemetry.addLine("Initializing!");
         elevatorMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.elevatormotor);
-        elevatorMotor.setDirection(DcMotor.Direction.FORWARD);
+        elevatorMotor.setDirection(DcMotor.Direction.REVERSE);
         elevatorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         elevatorMotor.setPower(0);
 
@@ -29,8 +29,8 @@ public class Elevator extends OpMode {
         float powerToUse = this.gamepad2.right_stick_y;
         if (upperTouchSensor.isPressed() || lowerTouchSensor.isPressed()) {
             // go back a bit.
-            powerToUse = (-this.gamepad2.right_stick_y / 20);
-            telemetry.addLine("Limit Reached - not going more");
+            powerToUse = -powerToUse;
+            telemetry.addLine("Limit Reached - reverse powert going more");
         }
         telemetry.addData("Stick position", powerToUse);
         elevatorMotor.setPower(powerToUse);

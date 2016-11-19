@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 enum AutonomousState {
     START,
+    SHOOT,
     END
 }
 
