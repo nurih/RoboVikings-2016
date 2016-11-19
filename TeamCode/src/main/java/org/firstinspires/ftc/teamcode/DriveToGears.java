@@ -19,12 +19,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 public class DriveToGears extends OpMode {
 
 
-    private static final double slowPower = 0.25;
+    private static final double slowPower = 0.15;
     private static final double fastPower = .3;
 
     public DcMotor leftMotor = null;
     public DcMotor rightMotor = null;
-
 
     VuforiaTrackable imageToDriveTo;
 
@@ -81,11 +80,11 @@ public class DriveToGears extends OpMode {
     }
 
     private void driveToImage(float yAxisAngle) {
-        if (yAxisAngle < 0) {
+        if (yAxisAngle < -0.4) {
             leftMotor.setPower(slowPower);
             rightMotor.setPower(0);
             telemetry.addLine("Turn right");
-        } else if (yAxisAngle > 0) {
+        } else if (yAxisAngle > .4) {
             leftMotor.setPower(0);
             rightMotor.setPower(slowPower);
             telemetry.addLine("Turn left");
