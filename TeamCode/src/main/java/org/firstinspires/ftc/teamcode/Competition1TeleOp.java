@@ -22,13 +22,13 @@ public class Competition1TeleOp extends OpMode {
         if (tryInit(op)) {
             opModeList.add(op);
         } else {
-            telemetry.addLine("OP MODE IS NOT USABLE!!!" + op.toString());
+            telemetry.addLine("OP MODE IS NOT USABLE!!!" + op.getClass().getSimpleName());
         }
     }
 
     private boolean tryInit(OpMode opMode) {
-        telemetry.addLine("Calling init() -> " + opMode.toString());
-        telemetry.update();
+        telemetry.addLine("Calling init() -> " + opMode.getClass().getSimpleName());
+
 
         try {
             opMode.init();
@@ -51,9 +51,6 @@ public class Competition1TeleOp extends OpMode {
         addOpMode(new Elevator());
         addOpMode(new Scoop());
         addOpMode(new Winder());
-
-        telemetry.update();
-
     }
 
 
