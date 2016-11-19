@@ -26,7 +26,7 @@ public class TeamVision {
     //    private static final List<VuforiaTrackable> trackableImages = new ArrayList<>();
     private static VuforiaTrackables trackables;
 
-    static void TeamVision() {
+    static {
 
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(com.qualcomm.ftcrobotcontroller.R.id.cameraMonitorViewId);
         parameters.vuforiaLicenseKey = TeamShared.VisionKey;
