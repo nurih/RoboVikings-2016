@@ -32,7 +32,7 @@ public class DriveToGears extends OpMode {
     public void init() {
 
         leftMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.lmotor);
-        rightMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.lmotor);
+        rightMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.rmotor);
 
         telemetry.addLine("Initializing lmotor and rmotor");
         leftMotor.setDirection(DcMotor.Direction.FORWARD);
