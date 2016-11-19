@@ -13,7 +13,6 @@ public class Competition1TeleOp extends OpMode {
 
     protected void addOpMode(OpMode op) {
         telemetry.addLine("Adding mini op mode " + op.toString());
-        telemetry.update();
         op.hardwareMap = this.hardwareMap;
         op.telemetry = this.telemetry;
         op.gamepad1 = this.gamepad1;
