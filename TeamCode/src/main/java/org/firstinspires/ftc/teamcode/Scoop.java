@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "Scoop", group = "Mini Ops")
+@TeleOp(name = "Scoop", group = "Mini Op")
 public class Scoop extends OpMode {
     private final double startingPosition = 0;
     private final int finalPosition = 1;

@@ -42,17 +42,15 @@ public class Competition1TeleOp extends OpMode {
 
     @Override
     public void init() {
-
         // collect some op modes and add them to the list
         telemetry.addLine("Adding mini op modes to list");
-
 
         addOpMode(new Drive());
         addOpMode(new Flippers());
         addOpMode(new Forklift());
         addOpMode(new Elevator());
+        addOpMode(new Scoop());
         addOpMode(new Winder());
-
 
         telemetry.update();
 
