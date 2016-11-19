@@ -22,7 +22,7 @@ public class Flippers extends OpMode {
 
         rightFlipper = TeamShared.getRobotPart(hardwareMap, RobotPart.rflipperservo);
         rightFlipper.setPosition(finalPosition);
-
+        telemetry.addLine(String.format("Flippers will range from %s to %s", startingPosition, finalPosition));
     }
 
     @Override
@@ -39,6 +39,8 @@ public class Flippers extends OpMode {
         } else {
             rightFlipper.setPosition(finalPosition);
         }
+
+        telemetry.addLine(String.format("Flippers L %s R %s", gamepad1.left_bumper, gamepad1.right_bumper));
     }
 }
 

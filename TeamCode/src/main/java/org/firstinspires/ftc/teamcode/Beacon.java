@@ -12,8 +12,8 @@ public class Beacon extends OpMode {
     private final double change = 0.3;
     private ColorSensor colorSensor = null;
     private Servo beaconPusher = null;
-    private int blueThreshold =4;
-    private int redThreshold = 5;
+    private int blueThreshold = 1;
+    private int redThreshold = 1;
 
     @Override
     public void init() {
@@ -44,7 +44,7 @@ public class Beacon extends OpMode {
             telemetry.addLine("Seeing Red");
             beaconPusher.setPosition(initialPosition + change);
         } else {
-            telemetry.addLine(String.format("Blue %s | Red %s", colorSensor.blue(), colorSensor.red()));
+            telemetry.addLine(String.format("Colors below thresholds Blue %s | Red %s", colorSensor.blue(), colorSensor.red()));
             beaconPusher.setPosition(initialPosition);
         }
     }

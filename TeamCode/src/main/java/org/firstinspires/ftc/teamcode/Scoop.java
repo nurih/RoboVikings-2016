@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Disabled
 @TeleOp(name = "Scoop", group = "Mini Ops")
 public class Scoop extends OpMode {
     private final double startingPosition = 0;
@@ -22,8 +21,10 @@ public class Scoop extends OpMode {
     @Override
     public void loop() {
         if (gamepad2.a) {
+            telemetry.addLine("Scoop dumping...");
             scoopServo.setPosition(finalPosition);
         } else {
+            telemetry.addLine("Scoop at rest");
             scoopServo.setPosition(startingPosition);
         }
     }
