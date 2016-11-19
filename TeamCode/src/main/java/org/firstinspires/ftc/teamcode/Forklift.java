@@ -33,7 +33,8 @@ public class Forklift extends OpMode {
      */
     @Override
     public void loop() {
-
-        motor.setPower(this.gamepad2.left_stick_y);
+        float power = gamepad2.left_stick_y;
+        motor.setPower( power );
+        telemetry.addData("Forklift power ", power );
     }
 }

@@ -22,11 +22,11 @@ public class Winder extends OpMode {
 
     @Override
     public void loop() {
-
+        double power = 0;
         if (gamepad2.right_bumper) {
-            winderMotor.setPower(winderPower);
-        } else {
-            winderMotor.setPower(0);
+            power = winderPower;
         }
+        winderMotor.setPower(power);
+        telemetry.addData("Winder power ", power);
     }
 }
