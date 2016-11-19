@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.Experiments;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 enum State{
     INITIALIZE , MOVE , CHECK1 , TURN, CHECK2 , STOP
 }
+@Disabled
 @Autonomous(name = "auto2" , group = "test")
 public class Try2 extends OpMode {
     State state_s;

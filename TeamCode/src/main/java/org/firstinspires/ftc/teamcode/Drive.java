@@ -13,8 +13,7 @@ public class Drive extends OpMode {
     @Override
     public void init() {
         leftMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.lmotor);
-
-        rightMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.lmotor);
+        rightMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.rmotor);
 
 
         leftMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -25,7 +24,7 @@ public class Drive extends OpMode {
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightMotor.setPower(0);
 
-        telemetry.addLine(String.format("Initializing %s  and %s",RobotPart.lmotor, RobotPart.rmotor));
+        telemetry.addLine(String.format("Initializing %s  and %s", RobotPart.lmotor, RobotPart.rmotor));
     }
 
     @Override

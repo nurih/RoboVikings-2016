@@ -62,9 +62,20 @@ public enum RobotPart {
     scoopservo(Servo.class),
 
     /*
+        * Beacon Pusher
+        * */
+    beaconservo(Servo.class),
+
+    /*
     * Color Sensor
     * */
-    colorsensor(ColorSensor.class);
+    colorsensor(ColorSensor.class),
+
+    /*
+    * Wall Touch Sensor (autonomous)
+    * */
+    walltouchsensor(TouchSensor.class),
+    ;
 
     private Class<? extends HardwareDevice> _partType;
 

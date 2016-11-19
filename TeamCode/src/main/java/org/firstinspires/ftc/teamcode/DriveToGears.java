@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
-
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -15,26 +16,44 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.RobotPart;
+import org.firstinspires.ftc.teamcode.TeamShared;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-@TeleOp(name = "Image Tracker", group = "Demo")
-public class ImageTracker extends OpMode {
-
+/**
+ * Created by Robovikings on 11/12/2016.
+ */
+@TeleOp(name = "Drive To Gears", group="Tests")
+public class DriveToGears extends OpMode {
     public static final String TAG = "RoboVikings 9887";
     public static final float MillimetersPerInch = 25.4f;
     public static final float RobotWidthMillimeters = 18 * MillimetersPerInch;
     public static final float fieldWidthMillimeters = (12 * 12 - 2) * MillimetersPerInch;
 
-    OpenGLMatrix lastLocation = null;
+
+    private static final double slowPower = 0.25;
+    private static final double fastPower = .3;
+
+    public DcMotor leftMotor = null;
+    public DcMotor rightMotor = null;
     VuforiaLocalizer vuforia;
 
     List<VuforiaTrackable> trackableImages = new ArrayList<>();
 
+
     @Override
     public void init() {
+
+        leftMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.lmotor);
+        rightMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.lmotor);
+
+        telemetry.addLine("Initializing lmotor and rmotor");
+        leftMotor.setDirection(DcMotor.Direction.FORWARD);
+        leftMotor.setPower(0);
+        leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightMotor.setPower(0);
 
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(com.qualcomm.ftcrobotcontroller.R.id.cameraMonitorViewId);
         parameters.vuforiaLicenseKey = TeamShared.VisionKey;
@@ -101,16 +120,37 @@ public class ImageTracker extends OpMode {
                     telemetry.addData("Y", orientation.secondAngle);
                     telemetry.addData("Z", orientation.thirdAngle);
                     telemetry.addData("Orientation", orientation.toString());
+
+
+                    driveToImage(orientation.secondAngle);
+
+
                 }
                 telemetry.addData(trackedImage.getName(), pose == null ? "Unknown location" : pose.formatAsTransform());
+
+
             } else {
                 telemetry.addData(trackedImage.getName(), "Not seeing");
             }
+
         }
 
         telemetry.update();
     }
+
+    private void driveToImage(float yAxisAngle) {
+        if (yAxisAngle > 0) {
+            leftMotor.setPower(slowPower);
+            rightMotor.setPower(0);
+            telemetry.addLine("Turn right");
+        } else if (yAxisAngle < 0) {
+            leftMotor.setPower(0);
+            rightMotor.setPower(slowPower);
+            telemetry.addLine("Turn left");
+        } else {
+            leftMotor.setPower(fastPower);
+            rightMotor.setPower(fastPower);
+            telemetry.addLine("Streight");
+        }
+    }
 }
-
-
-

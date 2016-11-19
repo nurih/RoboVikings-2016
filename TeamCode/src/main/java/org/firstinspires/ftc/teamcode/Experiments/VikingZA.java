@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.Experiments;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
+@Disabled
 @TeleOp(name = "Viking ZA", group = "Team")
 
 public class VikingZA extends OpMode {

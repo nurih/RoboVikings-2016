@@ -1,9 +1,14 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Experiments;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
-//Wow look! a BaconPusher
+
+import org.firstinspires.ftc.teamcode.RobotPart;
+import org.firstinspires.ftc.teamcode.TeamShared;
+
+@Disabled
 @TeleOp(name = "BeaconPusher", group = "Test")
 
 public class BeaconPusher extends OpMode {
@@ -11,12 +16,11 @@ public class BeaconPusher extends OpMode {
     private final double change = 0.3;
     //.3 is a test
     Servo beaconPusher = null;
-//( ͡° ͜ʖ ͡°) le lenny face
     @Override
     public void init() {
         telemetry.addLine("Initializing!");
 
-        beaconPusher = hardwareMap.servo.get("BeaconPusher");
+        beaconPusher = TeamShared.getRobotPart(hardwareMap, RobotPart.beaconservo) ;
 
         beaconPusher.setPosition(pos);
         telemetry.addLine("Initialized!");
@@ -35,4 +39,3 @@ public class BeaconPusher extends OpMode {
         }
     }
 }
-

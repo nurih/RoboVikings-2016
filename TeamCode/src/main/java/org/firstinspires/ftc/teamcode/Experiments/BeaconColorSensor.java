@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Experiments;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -7,7 +8,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import org.firstinspires.ftc.teamcode.RobotPart;
 import org.firstinspires.ftc.teamcode.TeamShared;
 
-@TeleOp(name = "Beacon Color Sensor", group = "Mini Ops")
+@Disabled
+@TeleOp(name = "Beacon Color Sensor", group = "Test")
 public class BeaconColorSensor extends OpMode {
 
 
@@ -26,6 +28,7 @@ public class BeaconColorSensor extends OpMode {
 
     @Override
     public void loop() {
+
         telemetry.addData("Red", colorSensor.red());
         telemetry.addData("Blue", colorSensor.blue());
         if (colorSensor.red() > 0) {

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Experiments;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -7,7 +8,7 @@ import com.qualcomm.robotcore.robocol.TelemetryMessage;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-
+@Disabled
 @TeleOp(name = "Flipper Revolutionized, hey everybody", group = "Test")
 public class Flipper_Revolutionized extends OpMode {
 

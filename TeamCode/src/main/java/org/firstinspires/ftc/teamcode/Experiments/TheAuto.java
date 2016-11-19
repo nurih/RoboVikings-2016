@@ -1,15 +1,15 @@
 package org.firstinspires.ftc.teamcode.Experiments;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptNullOp;
 
-/**
- * Created by Jennifer on 10/14/2016.
- */
+
+@Disabled
 @Autonomous(name = "AutoBasic" , group = "test")
 public class TheAuto extends OpMode {
 
