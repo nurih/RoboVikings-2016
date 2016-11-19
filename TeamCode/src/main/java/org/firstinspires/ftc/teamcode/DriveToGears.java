@@ -37,11 +37,11 @@ public class DriveToGears extends OpMode {
         telemetry.addLine("Initializing lmotor and rmotor");
         leftMotor.setDirection(DcMotor.Direction.FORWARD);
         leftMotor.setPower(0);
+
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotor.setPower(0);
 
         telemetry.addLine("init() done.");
-        telemetry.update();
 
         imageToDriveTo = TeamVision.getGearsTrackable();
     }
@@ -67,18 +67,25 @@ public class DriveToGears extends OpMode {
 
             } else {
                 telemetry.addData("Unknown position", imageToDriveTo.getName());
+                stopMotors();
             }
         } else {
             telemetry.addData("Not seeing", imageToDriveTo.getName());
+            stopMotors();
         }
     }
 
+    private void stopMotors() {
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+    }
+
     private void driveToImage(float yAxisAngle) {
-        if (yAxisAngle > 0) {
+        if (yAxisAngle < 0) {
             leftMotor.setPower(slowPower);
             rightMotor.setPower(0);
             telemetry.addLine("Turn right");
-        } else if (yAxisAngle < 0) {
+        } else if (yAxisAngle > 0) {
             leftMotor.setPower(0);
             rightMotor.setPower(slowPower);
             telemetry.addLine("Turn left");
@@ -88,7 +95,5 @@ public class DriveToGears extends OpMode {
             telemetry.addLine("Straight");
         }
     }
-
-
 }
 
