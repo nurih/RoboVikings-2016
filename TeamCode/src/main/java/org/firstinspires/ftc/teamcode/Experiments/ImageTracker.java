@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.TeamShared;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Disabled
 @TeleOp(name = "Image Tracker", group = "Demo")
 public class ImageTracker extends OpMode {
 
