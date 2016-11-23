@@ -4,13 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 
 /**
  * Created by Robovikings on 11/12/2016.
@@ -49,26 +44,17 @@ public class DriveToGears extends OpMode {
     @Override
     public void loop() {
 
-        VuforiaTrackableDefaultListener listener = (VuforiaTrackableDefaultListener) imageToDriveTo.getListener();
+        Orientation orientation = TeamVision.getOrientation(imageToDriveTo);
+        if (orientation != null) {
 
-        if (listener.isVisible()) {
-            telemetry.addLine(String.format("I see %s", imageToDriveTo.getName()));
+            telemetry.addLine(String.format("\n[X= %d ]\n[Y= %d ]\n[X= %d ]", orientation.firstAngle, orientation.secondAngle, orientation.thirdAngle));
 
-            OpenGLMatrix pose = listener.getPose();
-            if (pose != null) {
-                Orientation orientation = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+            telemetry.addData("Orientation", orientation.toString());
 
-                telemetry.addLine(String.format("[X=%s][Y=%s][X=%s]", orientation.firstAngle, orientation.secondAngle, orientation.thirdAngle));
-                telemetry.addData("Orientation", orientation.toString());
-                telemetry.addData(imageToDriveTo.getName(), pose.formatAsTransform());
+            driveToImage(orientation.secondAngle);
+        }
 
-                driveToImage(orientation.secondAngle);
-
-            } else {
-                telemetry.addData("Unknown position", imageToDriveTo.getName());
-                stopMotors();
-            }
-        } else {
+        else {
             telemetry.addData("Not seeing", imageToDriveTo.getName());
             stopMotors();
         }

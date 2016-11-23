@@ -15,8 +15,8 @@ enum Auto {
 @Autonomous(name = "Autonomous Competition 1", group = "Comp")
 public class AutonomousCompetition1 extends OpMode {
     private final int noPower = 0;
-    private final int WindupTime = 800;
-    private final double WindupPower = 0.8;
+    private final double WindupTime = 0.8 ; // 800 milliseconds
+    private final double WindupPower = 1;
     public DcMotor winderMotor = null;
     Auto state_s;
 
