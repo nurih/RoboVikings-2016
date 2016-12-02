@@ -1,11 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "Beacon Pusher Auto")
+@Autonomous(name = "Beacon Pusher Auto")
 public class Beacon extends OpMode {
 
     private final double initialPosition = 0.55;

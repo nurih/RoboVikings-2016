@@ -14,8 +14,7 @@
         <Motor name="elevatormotor" port="1"/>
     </MotorController>
 
-    <DeviceInterfaceModule name="Device Interface Module 1" serialNumber="AL00VCH6">
-        <ColorSensor name="colorsensor" port="0"/>
+    <DeviceInterfaceModule> name="Device Interface Module 1" serialNumber="AL00VC <ColorSensor name="colorsensor" port="0"/>
         <TouchSensor name="walltouchsensor" port="0"/>
         <TouchSensor name="elevatortouchlower" port="1"/>
         <TouchSensor name="elevatortouchupper" port="2"/>
