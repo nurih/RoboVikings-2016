@@ -46,7 +46,7 @@ public class TeamVision {
         AssignTrackableImageLocation(trackables.get(0), -fieldWidthMillimeters / 2, 0, AxesOrder.XZX, 90, 90);
         AssignTrackableImageLocation(trackables.get(1), 600 - fieldWidthMillimeters / 2, 0, AxesOrder.XZX, 90, 90);
         AssignTrackableImageLocation(trackables.get(2), 0, fieldWidthMillimeters / 2, AxesOrder.XZX, 90, 0);
-        AssignTrackableImageLocation(trackables.get(2), 0, 60 + fieldWidthMillimeters / 2, AxesOrder.XZX, 90, 0);
+        AssignTrackableImageLocation(trackables.get(2), 0, 600 + fieldWidthMillimeters / 2, AxesOrder.XZX, 90, 0);
 
 
         OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
@@ -90,5 +90,21 @@ public class TeamVision {
 
     public static VuforiaTrackable getGearsTrackable() {
         return trackables.get(3);
+    }
+
+    public static VuforiaTrackable getTrackable(int i) {
+        return trackables.get(Math.abs(i % 4));
+    }
+
+    public static Orientation getOrientation(VuforiaTrackable imageToDriveTo) {
+        VuforiaTrackableDefaultListener listener = (VuforiaTrackableDefaultListener) imageToDriveTo.getListener();
+        if (listener.isVisible()) {
+            OpenGLMatrix pose = listener.getPose();
+            if (pose != null) {
+                Orientation orientation = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+                return orientation;
+            }
+        }
+        return null;
     }
 }

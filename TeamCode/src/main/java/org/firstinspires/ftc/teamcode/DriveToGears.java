@@ -4,13 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 
 /**
  * Created by Robovikings on 11/12/2016.
@@ -19,12 +14,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 public class DriveToGears extends OpMode {
 
 
-    private static final double slowPower = 0.25;
+    private static final double slowPower = 0.15;
     private static final double fastPower = .3;
 
     public DcMotor leftMotor = null;
     public DcMotor rightMotor = null;
-
 
     VuforiaTrackable imageToDriveTo;
 
@@ -37,11 +31,11 @@ public class DriveToGears extends OpMode {
         telemetry.addLine("Initializing lmotor and rmotor");
         leftMotor.setDirection(DcMotor.Direction.FORWARD);
         leftMotor.setPower(0);
+
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotor.setPower(0);
 
         telemetry.addLine("init() done.");
-        telemetry.update();
 
         imageToDriveTo = TeamVision.getGearsTrackable();
     }
@@ -50,35 +44,33 @@ public class DriveToGears extends OpMode {
     @Override
     public void loop() {
 
-        VuforiaTrackableDefaultListener listener = (VuforiaTrackableDefaultListener) imageToDriveTo.getListener();
+        Orientation orientation = TeamVision.getOrientation(imageToDriveTo);
+        if (orientation != null) {
 
-        if (listener.isVisible()) {
-            telemetry.addLine(String.format("I see %s", imageToDriveTo.getName()));
+            telemetry.addLine(String.format("\n[X= %d ]\n[Y= %d ]\n[X= %d ]", orientation.firstAngle, orientation.secondAngle, orientation.thirdAngle));
 
-            OpenGLMatrix pose = listener.getPose();
-            if (pose != null) {
-                Orientation orientation = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+            telemetry.addData("Orientation", orientation.toString());
 
-                telemetry.addLine(String.format("[X=%s][Y=%s][X=%s]", orientation.firstAngle, orientation.secondAngle, orientation.thirdAngle));
-                telemetry.addData("Orientation", orientation.toString());
-                telemetry.addData(imageToDriveTo.getName(), pose.formatAsTransform());
+            driveToImage(orientation.secondAngle);
+        }
 
-                driveToImage(orientation.secondAngle);
-
-            } else {
-                telemetry.addData("Unknown position", imageToDriveTo.getName());
-            }
-        } else {
+        else {
             telemetry.addData("Not seeing", imageToDriveTo.getName());
+            stopMotors();
         }
     }
 
+    private void stopMotors() {
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+    }
+
     private void driveToImage(float yAxisAngle) {
-        if (yAxisAngle > 0) {
+        if (yAxisAngle < -0.4) {
             leftMotor.setPower(slowPower);
             rightMotor.setPower(0);
             telemetry.addLine("Turn right");
-        } else if (yAxisAngle < 0) {
+        } else if (yAxisAngle > .4) {
             leftMotor.setPower(0);
             rightMotor.setPower(slowPower);
             telemetry.addLine("Turn left");
@@ -88,7 +80,5 @@ public class DriveToGears extends OpMode {
             telemetry.addLine("Straight");
         }
     }
-
-
 }
 

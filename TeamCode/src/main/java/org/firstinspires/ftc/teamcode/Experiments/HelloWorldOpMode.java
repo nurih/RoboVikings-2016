@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Experiments;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.RobotPart;
 import org.firstinspires.ftc.teamcode.TeamShared;
 
-
+@Disabled
 @TeleOp(name = "Hello World", group = "Demos")
 public class HelloWorldOpMode extends OpMode {
     /**

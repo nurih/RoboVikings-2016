@@ -8,13 +8,13 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous(name = "Beacon Pusher Auto")
 public class Beacon extends OpMode {
 
-    private final double initialPosition = 0.55;
+    private final double initialPosition = 0.5;
     private final double change = 0.3;
     private ColorSensor colorSensor = null;
     private Servo beaconPusher = null;
     private int blueThreshold = 1;
-    private int redThreshold = 1;
-
+    private int redThreshold = 2;
+    private Alliance team = Alliance.Blue;
     @Override
     public void init() {
 
