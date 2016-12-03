@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "Beacon Pusher Auto")
-public class Beacon extends OpMode {
+@Autonomous(name = "Beacon Autonomous")
+public class BeaconAutonomous extends OpMode {
 
     private final double initialPosition = 0.5;
     private final double change = 0.3;
