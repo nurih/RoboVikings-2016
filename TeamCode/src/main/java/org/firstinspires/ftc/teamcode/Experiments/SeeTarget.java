@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Experiments;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -12,7 +11,6 @@ import org.firstinspires.ftc.teamcode.TeamVision;
 /**
  * Created by Robovikings on 11/22/2016.
  */
-@Disabled
 @TeleOp(name = "See Gears Experimental", group = "Test")
 public class SeeTarget extends OpMode {
 
@@ -50,6 +48,8 @@ public class SeeTarget extends OpMode {
         Orientation orientation = TeamVision.getOrientation( imageToTrack );
         if (orientation != null) {
             telemetry.addData( "Orientation", orientation.toString() );
+        } else {
+            telemetry.addData( "Not seeing ", imageToTrack.getName() );
         }
     }
 

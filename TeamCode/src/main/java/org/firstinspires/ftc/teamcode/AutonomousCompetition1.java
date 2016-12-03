@@ -24,24 +24,18 @@ public class AutonomousCompetition1 extends OpMode {
     private final double WindupTime = 0.8;
     private final double WindupPower = 1;
     public DcMotor winderMotor = null;
-
-
+    public DcMotor leftMotor = null;
+    public DcMotor rightMotor = null;
+    public TouchSensor wallTouch = TeamShared.getRobotPart( hardwareMap, RobotPart.walltouchsensor );
     Auto state_s;
-
     // vision stuff
     int imageIndex = 0;
-    private VuforiaTrackable imageToTrack = TeamVision.getTrackable( imageIndex );
 
+    // driving stuff
     // alliance stuff
     int allianceIndex = 0;
     Alliance alliance = Alliance.Blue;
-
-// driving stuff
-
-    public DcMotor leftMotor = null;
-    public DcMotor rightMotor = null;
-
-    public TouchSensor wallTouch = TeamShared.getRobotPart( hardwareMap, RobotPart.walltouchsensor );
+    private VuforiaTrackable imageToTrack = TeamVision.getTrackable( imageIndex );
 
     @Override
     public void init() {
@@ -51,17 +45,17 @@ public class AutonomousCompetition1 extends OpMode {
         winderMotor.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
         winderMotor.setPower( noPower );
 
-        telemetry.addLine("Initializing winder motor");
+        telemetry.addLine( "Initializing winder motor" );
 
-        leftMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.lmotor);
-        rightMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.rmotor);
+        leftMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.lmotor );
+        rightMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.rmotor );
 
-        leftMotor.setDirection(DcMotor.Direction.FORWARD);
-        leftMotor.setPower(0);
+        leftMotor.setDirection( DcMotor.Direction.FORWARD );
+        leftMotor.setPower( 0 );
 
-        leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightMotor.setPower(0);
-        telemetry.addLine("Initialized lmotor and rmotor");
+        leftMotor.setDirection( DcMotor.Direction.REVERSE );
+        rightMotor.setPower( 0 );
+        telemetry.addLine( "Initialized lmotor and rmotor" );
 
 
         telemetry.addData( "Tracking ", imageToTrack.getName() );
@@ -99,11 +93,15 @@ public class AutonomousCompetition1 extends OpMode {
 
                 state_s = Auto.CHECK;
                 break;
+
             case CHECK:
                 if (getRuntime() > WindupTime) {
-                    state_s = Auto.STOP;
+                    state_s = Auto.DRIVE_TO_IMAGE;
                 }
+                break;
 
+            case DRIVE_TO_IMAGE:
+                tryToDrive();
                 break;
             case STOP:
                 winderMotor.setPower( noPower );
@@ -119,26 +117,23 @@ public class AutonomousCompetition1 extends OpMode {
 
     public void tryToDrive() {
 
-        Orientation orientation = TeamVision.getOrientation(imageToTrack);
+        Orientation orientation = TeamVision.getOrientation( imageToTrack );
         if (orientation != null) {
 
-            telemetry.addLine(String.format("\n[X= %d ]\n[Y= %d ]\n[X= %d ]", orientation.firstAngle, orientation.secondAngle, orientation.thirdAngle));
+            telemetry.addLine( String.format( "\n[X= %d ]\n[Y= %d ]\n[X= %d ]", orientation.firstAngle, orientation.secondAngle, orientation.thirdAngle ) );
 
-            telemetry.addData("Orientation", orientation.toString());
+            telemetry.addData( "Orientation", orientation.toString() );
 
-            driveToImage(orientation.secondAngle);
-        }
-
-        else {
-            telemetry.addData("Not seeing", imageToTrack.getName());
+            driveToImage( orientation.secondAngle );
+        } else {
+            telemetry.addData( "Not seeing", imageToTrack.getName() );
             stopMotors();
         }
     }
 
-
     private void stopMotors() {
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
+        leftMotor.setPower( 0 );
+        rightMotor.setPower( 0 );
     }
 
     private void driveToImage(float yAxisAngle) {
@@ -148,22 +143,23 @@ public class AutonomousCompetition1 extends OpMode {
         final double angleThreshold = 0.4;
 
         // stop if hitting the wall
-        if(wallTouch.isPressed()){
+        if (wallTouch.isPressed()) {
+            stopMotors();
             state_s = Auto.STOP;
         }
 
         if (yAxisAngle < -angleThreshold) {
-            leftMotor.setPower(slowPower);
+            leftMotor.setPower( slowPower );
             rightMotor.setPower( noPower );
-            telemetry.addLine("Turn right");
+            telemetry.addLine( "Turn right" );
         } else if (yAxisAngle > angleThreshold) {
             leftMotor.setPower( noPower );
-            rightMotor.setPower(slowPower);
-            telemetry.addLine("Turn left");
+            rightMotor.setPower( slowPower );
+            telemetry.addLine( "Turn left" );
         } else {
-            leftMotor.setPower(fastPower);
-            rightMotor.setPower(fastPower);
-            telemetry.addLine("Straight");
+            leftMotor.setPower( fastPower );
+            rightMotor.setPower( fastPower );
+            telemetry.addLine( "Straight" );
         }
     }
 
