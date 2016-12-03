@@ -14,9 +14,8 @@ import org.firstinspires.ftc.teamcode.TeamShared;
  * Created by Robovikings on 10/29/2016.
  */
 
-
-@Autonomous(name = "Vuforia_Attempt_1", group = "Test")
 @Disabled
+@Autonomous(name = "Vuforia_Attempt_1", group = "Test")
 public class Vuforia_Attempt_1 extends LinearOpMode {
 
     public static final String TAG = "Vuforia_Attempt_1";

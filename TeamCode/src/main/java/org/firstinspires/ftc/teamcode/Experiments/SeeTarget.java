@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Experiments;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.TeamVision;
 /**
  * Created by Robovikings on 11/22/2016.
  */
-
+@Disabled
 @TeleOp(name = "See Gears Experimental", group = "Test")
 public class SeeTarget extends OpMode {
 
@@ -22,37 +23,34 @@ public class SeeTarget extends OpMode {
 
     @Override
     public void init() {
-        chooseImage();
-        chooseAlliance();
+        imageToTrack = TeamVision.getTrackable( imageIndex );
+
+        alliance = Alliance.values()[allianceIndex];
+        telemetry.addData( "Alliance", alliance.name() );
     }
 
-    private void chooseImage() {
-        imageToTrack = TeamVision.getTrackable(imageIndex);
-        telemetry.addData("Tracking ", imageToTrack.getName());
-    }
 
     @Override
     public void init_loop() {
         if (gamepad1.x) {
-            imageIndex++;
-            chooseImage();
+            imageIndex = imageIndex + 1 % 4;
+            imageToTrack = TeamVision.getTrackable( imageIndex );
         }
         if (gamepad1.y) {
             allianceIndex = (allianceIndex + 1) % 2;
-            chooseAlliance();
+            alliance = Alliance.values()[allianceIndex];
         }
-    }
 
-    private void chooseAlliance() {
-        alliance = Alliance.values()[allianceIndex];
-        telemetry.addData("Alliance", alliance.name());
+        telemetry.addData( "Tracking ", imageToTrack.getName() );
+        telemetry.addData( "Alliance ", alliance.name() );
     }
 
     @Override
     public void loop() {
-        Orientation orientation = TeamVision.getOrientation(imageToTrack);
+        Orientation orientation = TeamVision.getOrientation( imageToTrack );
         if (orientation != null) {
-            telemetry.addData("Orientation", orientation.toString());
+            telemetry.addData( "Orientation", orientation.toString() );
         }
     }
+
 }
