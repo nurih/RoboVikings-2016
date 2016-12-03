@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "Beacon TeleOp")
@@ -11,7 +9,7 @@ public class BeaconTeleOp extends OpMode {
 
     private final double initialPosition = 0.5;
     private final double change = 0.3;
-   ;
+    ;
     private Servo beaconPusher = null;
 
     @Override
@@ -29,9 +27,7 @@ public class BeaconTeleOp extends OpMode {
             //blue
             telemetry.addLine( "Beacon Pusher - X Pressed" );
             beaconPusher.setPosition( initialPosition - change );
-        }
-
-        if (gamepad2.b) {
+        } else if (gamepad2.b) {
             // red
             telemetry.addLine( "Beacon Pusher - B pressed" );
             beaconPusher.setPosition( initialPosition + change );
@@ -39,5 +35,6 @@ public class BeaconTeleOp extends OpMode {
             telemetry.addLine( "Beacon Pusher - resting" );
             beaconPusher.setPosition( initialPosition );
         }
+
     }
 }
