@@ -34,7 +34,7 @@ public class Elevator extends OpMode {
 
     @Override
     public void loop() {
-        float powerToUse = 0;
+        double powerToUse = 0;
         // decide direction
         if (upperTouchSensor.isPressed()) {
             direction = DcMotorSimple.Direction.REVERSE;
@@ -45,14 +45,16 @@ public class Elevator extends OpMode {
         }
 
         // decide power
-        if (this.gamepad2.left_trigger > 0.2) {
-            powerToUse = this.gamepad2.left_trigger;
+        if (Math.abs( gamepad2.right_stick_y ) > 0.2) {
+            powerToUse = 0.25;
+        } else {
+            powerToUse = 0;
         }
 
 
         telemetry.addData( "Amount Triggered", powerToUse );
         telemetry.addData( "Direction", direction.name() );
-        elevatorMotor.setDirection(direction);
+        elevatorMotor.setDirection( direction );
         elevatorMotor.setPower( powerToUse );
     }
 }

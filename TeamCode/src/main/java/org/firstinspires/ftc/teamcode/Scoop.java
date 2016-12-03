@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "Scoop", group = "Mini Op")
 public class Scoop extends OpMode {
-    private final double startingPosition = Servo.MIN_POSITION;
-    private final double finalPosition = Servo.MAX_POSITION * 0.65;
+    private final double startingPosition = Servo.MAX_POSITION;
+    private final double finalPosition = Servo.MIN_POSITION + 0.35;
 
     public Servo scoopServo = null;
 
