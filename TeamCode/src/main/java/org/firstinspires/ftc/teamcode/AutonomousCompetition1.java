@@ -96,15 +96,18 @@ public class AutonomousCompetition1 extends OpMode {
 
             case CHECK:
                 if (getRuntime() > WindupTime) {
+                    winderMotor.setPower( noPower );
                     state_s = Auto.DRIVE_TO_IMAGE;
                 }
                 break;
 
             case DRIVE_TO_IMAGE:
                 tryToDrive();
+
                 break;
             case STOP:
                 winderMotor.setPower( noPower );
+                stopMotors();
                 break;
 
             default:
