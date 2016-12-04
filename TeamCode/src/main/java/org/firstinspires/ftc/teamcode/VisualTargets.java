@@ -13,15 +13,28 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-public class TeamVision {
+/**
+ * Created by Robovikings on 12/4/2016.
+ */
+public class VisualTargets {
 
     public static final String TAG = "RoboVikings 9887";
     public static final float MillimetersPerInch = 25.4f;
     public static final float RobotWidthMillimeters = 18 * MillimetersPerInch;
     public static final float fieldWidthMillimeters = (12 * 12 - 2) * MillimetersPerInch;
-    private static VuforiaTrackables trackables;
+    private VuforiaTrackables trackables;
 
-    static {
+    private void AssignTrackableImageLocation(VuforiaTrackable trackable, float translationDx, float translationDy, AxesOrder axesOrder, int firstAngle, int secondAngle) {
+        OpenGLMatrix redTargetLocationOnField = OpenGLMatrix
+                .translation( translationDx, translationDy, 0 )
+                .multiplied( Orientation.getRotationMatrix(
+                        AxesReference.EXTRINSIC, axesOrder,
+                        AngleUnit.DEGREES, firstAngle, secondAngle, 0 ) );
+        trackable.setLocation( redTargetLocationOnField );
+        RobotLog.ii( TAG, "%s =%s", trackable.getName(), redTargetLocationOnField.formatAsTransform() );
+    }
+
+    public VisualTargets() {
 
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters( com.qualcomm.ftcrobotcontroller.R.id.cameraMonitorViewId );
         parameters.vuforiaLicenseKey = TeamShared.VisionKey;
@@ -34,9 +47,6 @@ public class TeamVision {
         trackables.get( 1 ).setName( TargetImages.Tools.name() );
         trackables.get( 2 ).setName( TargetImages.Legos.name() );
         trackables.get( 3 ).setName( TargetImages.Gears.name() );
-
-
-        // trackableImages.addAll(trackables);
 
         AssignTrackableImageLocation( trackables.get( 0 ), -fieldWidthMillimeters / 2, 0, AxesOrder.XZX, 90, 90 );
         AssignTrackableImageLocation( trackables.get( 1 ), 600 - fieldWidthMillimeters / 2, 0, AxesOrder.XZX, 90, 90 );
@@ -58,40 +68,36 @@ public class TeamVision {
 
         trackables.activate();
 
+        RobotLog.ii( TAG, "Activated Trackable images in Visual Targets");
 
     }
 
-    private static void AssignTrackableImageLocation(VuforiaTrackable trackable, float translationDx, float translationDy, AxesOrder axesOrder, int firstAngle, int secondAngle) {
-        OpenGLMatrix redTargetLocationOnField = OpenGLMatrix
-                .translation( translationDx, translationDy, 0 )
-                .multiplied( Orientation.getRotationMatrix(
-                        AxesReference.EXTRINSIC, axesOrder,
-                        AngleUnit.DEGREES, firstAngle, secondAngle, 0 ) );
-        trackable.setLocation( redTargetLocationOnField );
-        RobotLog.ii( TAG, "%s =%s", trackable.getName(), redTargetLocationOnField.formatAsTransform() );
+    protected void finalize() {
+        trackables.deactivate();
+        trackables.clear();
     }
 
-    public static VuforiaTrackable getWheelsTrackable() {
+    public VuforiaTrackable getWheelsTrackable() {
         return trackables.get( 0 );
     }
 
-    public static VuforiaTrackable getToolsTrackable() {
+    public VuforiaTrackable getToolsTrackable() {
         return trackables.get( 1 );
     }
 
-    public static VuforiaTrackable getLegosTrackable() {
+    public VuforiaTrackable getLegosTrackable() {
         return trackables.get( 2 );
     }
 
-    public static VuforiaTrackable getGearsTrackable() {
+    public VuforiaTrackable getGearsTrackable() {
         return trackables.get( 3 );
     }
 
-    public static VuforiaTrackable getTrackable(int i) {
+    public VuforiaTrackable getTrackable(int i) {
         return trackables.get( Math.abs( i % 4 ) );
     }
 
-    public static Orientation getOrientation(VuforiaTrackable imageToDriveTo) {
+    public Orientation getOrientation(VuforiaTrackable imageToDriveTo) {
         VuforiaTrackableDefaultListener listener = (VuforiaTrackableDefaultListener) imageToDriveTo.getListener();
         if (listener.isVisible()) {
             OpenGLMatrix pose = listener.getPose();
@@ -102,4 +108,5 @@ public class TeamVision {
         }
         return null;
     }
+
 }

@@ -20,6 +20,7 @@ public class DriveToGears extends OpMode {
     public DcMotor leftMotor = null;
     public DcMotor rightMotor = null;
 
+    VisualTargets visualTargets;
     VuforiaTrackable imageToDriveTo;
 
     @Override
@@ -37,6 +38,7 @@ public class DriveToGears extends OpMode {
 
         telemetry.addLine("init() done.");
 
+        visualTargets = new VisualTargets();
         imageToDriveTo = TeamVision.getGearsTrackable();
     }
 
@@ -47,7 +49,7 @@ public class DriveToGears extends OpMode {
         Orientation orientation = TeamVision.getOrientation(imageToDriveTo);
         if (orientation != null) {
 
-            telemetry.addLine(String.format("\n[X= %d ]\n[Y= %d ]\n[X= %d ]", orientation.firstAngle, orientation.secondAngle, orientation.thirdAngle));
+            telemetry.addLine(String.format("\n[X= %f ]\n[Y= %f ]\n[X= %f ]", orientation.firstAngle, orientation.secondAngle, orientation.thirdAngle));
 
             telemetry.addData("Orientation", orientation.toString());
 
