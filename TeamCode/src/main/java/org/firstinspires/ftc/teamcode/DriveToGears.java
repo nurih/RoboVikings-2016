@@ -39,14 +39,14 @@ public class DriveToGears extends OpMode {
         telemetry.addLine("init() done.");
 
         visualTargets = new VisualTargets();
-        imageToDriveTo = TeamVision.getGearsTrackable();
+        imageToDriveTo = visualTargets.getGearsTrackable();
     }
 
 
     @Override
     public void loop() {
 
-        Orientation orientation = TeamVision.getOrientation(imageToDriveTo);
+        Orientation orientation = visualTargets.getOrientation(imageToDriveTo);
         if (orientation != null) {
 
             telemetry.addLine(String.format("\n[X= %f ]\n[Y= %f ]\n[X= %f ]", orientation.firstAngle, orientation.secondAngle, orientation.thirdAngle));
