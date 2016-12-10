@@ -23,10 +23,10 @@ public class AutonomousCompetition1 extends OpMode {
 
     // winder stuff
     private final int noPower = 0;
-    private final double WindupTime = 0.8;
+    private final double WindupTime = 1;
     private final double WindupPower = 1;
     private final double startingPosition = Servo.MAX_POSITION;
-    private final double finalPosition = Servo.MIN_POSITION;
+    private final double finalPosition = Servo.MIN_POSITION + 0.25;
     public DcMotor elevatorMotor;
     public TouchSensor upperTouchSensor;
     public TouchSensor lowerTouchSensor;
@@ -51,9 +51,10 @@ public class AutonomousCompetition1 extends OpMode {
 
     @Override
     public void init() {
+        visualTargets = new VisualTargets();
         imageToTrack = visualTargets.getTrackable( imageIndex );
 
-        state_s = Auto.START;
+
         winderMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.windermotor );
         winderMotor.setDirection( DcMotor.Direction.FORWARD );
         winderMotor.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
@@ -72,7 +73,7 @@ public class AutonomousCompetition1 extends OpMode {
         telemetry.addLine( "Initialized lmotor and rmotor" );
 
         scoopServo = TeamShared.getRobotPart( hardwareMap, RobotPart.scoopservo );
-        scoopServo.setPosition( startingPosition );
+        scoopServo.setPosition( (startingPosition / finalPosition ) /2.0 );
 
         elevatorMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.elevatormotor );
 
@@ -88,6 +89,7 @@ public class AutonomousCompetition1 extends OpMode {
         telemetry.addData( "Tracking ", imageToTrack.getName() );
         telemetry.addData( "Alliance ", alliance.name() );
 
+        state_s = Auto.START;
     }
 
 
@@ -138,7 +140,7 @@ public class AutonomousCompetition1 extends OpMode {
                 }
                 break;
             case SCOOP:
-                if (getRuntime() < WindupTime) {
+                if (getRuntime() < 0.8) {
                     scoopServo.setPosition( finalPosition );
                 } else {
                     scoopServo.setPosition( startingPosition );
@@ -147,7 +149,7 @@ public class AutonomousCompetition1 extends OpMode {
                 }
                 break;
             case LOWER:
-                if (getRuntime() < 1 || lowerTouchSensor.isPressed()) {
+                if (getRuntime() < 1.75 || lowerTouchSensor.isPressed()) {
                     elevatorMotor.setPower( elevatorSpeed );
                 } else {
                     elevatorMotor.setPower( noPower );
