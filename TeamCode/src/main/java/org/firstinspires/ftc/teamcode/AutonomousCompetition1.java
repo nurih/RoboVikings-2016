@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
  */
 
 enum Auto {
-    START , SHOOT , CHECK , ELEVATE , SCOOP , LOWER , SHOOT2 , STOP, DRIVE_TO_IMAGE
+    START, SHOOT, CHECK, ELEVATE, SCOOP, LOWER, SHOOT2, STOP, DRIVE_TO_IMAGE
 }
 
 @Autonomous(name = "Autonomous Competition 1", group = "Comp")
@@ -25,15 +25,13 @@ public class AutonomousCompetition1 extends OpMode {
     private final int noPower = 0;
     private final double WindupTime = 0.8;
     private final double WindupPower = 1;
+    private final double startingPosition = Servo.MAX_POSITION;
+    private final double finalPosition = Servo.MIN_POSITION;
     public DcMotor elevatorMotor;
     public TouchSensor upperTouchSensor;
     public TouchSensor lowerTouchSensor;
-
-    private final double startingPosition = Servo.MAX_POSITION;
-    private final double finalPosition = Servo.MIN_POSITION;
     public Servo scoopServo = null;
 
-    public DcMotorSimple.Direction direction;
     public DcMotor winderMotor = null;
     public DcMotor leftMotor = null;
     public DcMotor rightMotor = null;
@@ -76,11 +74,9 @@ public class AutonomousCompetition1 extends OpMode {
         scoopServo = TeamShared.getRobotPart( hardwareMap, RobotPart.scoopservo );
         scoopServo.setPosition( startingPosition );
 
-        direction = DcMotorSimple.Direction.FORWARD;
-
         elevatorMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.elevatormotor );
 
-        elevatorMotor.setDirection( direction );
+        elevatorMotor.setDirection( DcMotorSimple.Direction.FORWARD );
 
         elevatorMotor.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
 
@@ -121,71 +117,59 @@ public class AutonomousCompetition1 extends OpMode {
                 state_s = Auto.SHOOT;
                 break;
             case SHOOT:
-                if (getRuntime() < WindupTime)
-                {
-                    winderMotor.setPower(WindupPower);
-                }
-                else
-                {
-                    winderMotor.setPower(noPower);
+                if (getRuntime() < WindupTime) {
+                    winderMotor.setPower( WindupPower );
+                } else {
+                    winderMotor.setPower( noPower );
                     state_s = Auto.ELEVATE;
                 }
                 break;
 
             case ELEVATE:
-                if(upperTouchSensor.isPressed())
-                {
-                    state_s = Auto.SCOOP;
-                    elevatorMotor.setPower(noPower);
-                    direction = DcMotorSimple.Direction.REVERSE;
-                }
-                else
-                {
-                    elevatorMotor.setPower(elevatorSpeed);
+                if (!upperTouchSensor.isPressed()) {
+                    elevatorMotor.setPower( elevatorSpeed );
+                } else {
+
+                    elevatorMotor.setPower( noPower );
+                    elevatorMotor.setDirection( DcMotorSimple.Direction.REVERSE );
                     resetStartTime();
+
+                    state_s = Auto.SCOOP;
                 }
                 break;
             case SCOOP:
-                if (getRuntime() < WindupTime)
-                {
+                if (getRuntime() < WindupTime) {
                     scoopServo.setPosition( finalPosition );
-                }
-                else
-                {
-                    scoopServo.setPosition(startingPosition);
+                } else {
+                    scoopServo.setPosition( startingPosition );
                     resetStartTime();
                     state_s = Auto.LOWER;
                 }
                 break;
             case LOWER:
-                if(getRuntime() < 1)
-                {
-                    elevatorMotor.setPower(elevatorSpeed);
-                }
-                else
-                {
-                    elevatorMotor.setPower(noPower);
+                if (getRuntime() < 1 || lowerTouchSensor.isPressed()) {
+                    elevatorMotor.setPower( elevatorSpeed );
+                } else {
+                    elevatorMotor.setPower( noPower );
                     resetStartTime();
-                    state_s = Auto.SCOOP;
+
+                    state_s = Auto.SHOOT2;
                 }
                 break;
             case SHOOT2:
-                if (getRuntime() < WindupTime)
-                {
-                    winderMotor.setPower(WindupPower);
-                }
-                else
-                {
-                    winderMotor.setPower(noPower);
-                    state_s = Auto.STOP;
+                if (getRuntime() < WindupTime) {
+                    winderMotor.setPower( WindupPower );
+                } else {
+                    winderMotor.setPower( noPower );
+                    state_s = Auto.DRIVE_TO_IMAGE;
                 }
                 break;
             case STOP:
                 winderMotor.setPower( noPower );
-                elevatorMotor.setPower(noPower);
+                elevatorMotor.setPower( noPower );
                 stopMotors();
                 break;
-            case DRIVE_TO_IMAGE:{
+            case DRIVE_TO_IMAGE: {
                 tryToDrive();
             }
 

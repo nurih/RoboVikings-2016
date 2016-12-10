@@ -38,7 +38,7 @@ public class VisualTargets {
 
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters( com.qualcomm.ftcrobotcontroller.R.id.cameraMonitorViewId );
         parameters.vuforiaLicenseKey = TeamShared.VisionKey;
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         VuforiaLocalizer vuforiaLocalizer = ClassFactory.createVuforiaLocalizer( parameters );
 
         trackables = vuforiaLocalizer.loadTrackablesFromAsset( "FTC_2016-17" );
