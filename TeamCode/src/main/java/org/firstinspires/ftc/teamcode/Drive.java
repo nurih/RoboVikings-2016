@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
 @TeleOp(name = "Drive", group = "Mini Op")
@@ -16,11 +17,11 @@ public class Drive extends OpMode {
         rightMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.rmotor );
 
 
-        leftMotor.setDirection( DcMotor.Direction.FORWARD );
+        leftMotor.setDirection( DcMotor.Direction.REVERSE );
         leftMotor.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
         leftMotor.setPower( 0 );
 
-        rightMotor.setDirection( DcMotor.Direction.REVERSE );
+        rightMotor.setDirection( DcMotor.Direction.FORWARD );
         rightMotor.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
         rightMotor.setPower( 0 );
 

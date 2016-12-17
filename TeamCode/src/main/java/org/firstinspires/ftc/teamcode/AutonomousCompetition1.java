@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
  */
 
 enum Auto {
-    START, SHOOT, CHECK, ELEVATE, SCOOP, LOWER, SHOOT2, STOP, DRIVE_TO_IMAGE
+    START, SHOOT, CHECK, ELEVATE, SCOOP, LOWER, SHOOT2, BUMP, STOP,
 }
 
 @Autonomous(name = "Autonomous Competition 1", group = "Comp")
@@ -31,7 +31,6 @@ public class AutonomousCompetition1 extends OpMode {
     public TouchSensor upperTouchSensor;
     public TouchSensor lowerTouchSensor;
     public Servo scoopServo = null;
-
     public DcMotor winderMotor = null;
     public DcMotor leftMotor = null;
     public DcMotor rightMotor = null;
@@ -39,18 +38,20 @@ public class AutonomousCompetition1 extends OpMode {
     Auto state_s;
     // vision stuff
     int imageIndex = 0;
-
     // driving stuff
     // alliance stuff
     int allianceIndex = 0;
     Alliance alliance = Alliance.Blue;
-
+    private Servo beaconPusher = null;
     private VisualTargets visualTargets;
     private VuforiaTrackable imageToTrack;
     private double elevatorSpeed;
 
     @Override
     public void init() {
+        beaconPusher = TeamShared.getRobotPart( hardwareMap, RobotPart.beaconservo );
+        beaconPusher.setPosition( (Servo.MAX_POSITION / Servo.MIN_POSITION) / 2.0 );
+
         visualTargets = new VisualTargets();
         imageToTrack = visualTargets.getTrackable( imageIndex );
 
@@ -73,7 +74,7 @@ public class AutonomousCompetition1 extends OpMode {
         telemetry.addLine( "Initialized lmotor and rmotor" );
 
         scoopServo = TeamShared.getRobotPart( hardwareMap, RobotPart.scoopservo );
-        scoopServo.setPosition( (startingPosition / finalPosition ) /2.0 );
+        scoopServo.setPosition( (startingPosition / finalPosition) / 2.0 );
 
         elevatorMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.elevatormotor );
 
@@ -163,18 +164,22 @@ public class AutonomousCompetition1 extends OpMode {
                     winderMotor.setPower( WindupPower );
                 } else {
                     winderMotor.setPower( noPower );
-                    state_s = Auto.DRIVE_TO_IMAGE;
+                    resetStartTime();
+                    state_s = Auto.BUMP;
                 }
                 break;
+            case BUMP:
+                if (getRuntime() > 3 || wallTouch.isPressed()) {
+                    state_s = Auto.STOP;
+                } else {
+                    rightMotor.setPower( .7 );
+                    leftMotor.setPower( .7 );
+                }
             case STOP:
                 winderMotor.setPower( noPower );
                 elevatorMotor.setPower( noPower );
-                stopMotors();
+                stopDriveMotors();
                 break;
-            case DRIVE_TO_IMAGE: {
-                tryToDrive();
-            }
-
             default:
                 state_s = Auto.STOP;
                 break;
@@ -195,11 +200,11 @@ public class AutonomousCompetition1 extends OpMode {
             driveToImage( orientation.secondAngle );
         } else {
             telemetry.addData( "Not seeing", imageToTrack.getName() );
-            stopMotors();
+            stopDriveMotors();
         }
     }
 
-    private void stopMotors() {
+    private void stopDriveMotors() {
         leftMotor.setPower( 0 );
         rightMotor.setPower( 0 );
     }
@@ -212,7 +217,7 @@ public class AutonomousCompetition1 extends OpMode {
 
         // stop if hitting the wall
         if (wallTouch.isPressed()) {
-            stopMotors();
+            stopDriveMotors();
             state_s = Auto.STOP;
         }
 
