@@ -27,6 +27,8 @@ public class AutonomousCompetition1 extends OpMode {
     private final double WindupPower = 1;
     private final double startingPosition = Servo.MAX_POSITION;
     private final double finalPosition = Servo.MIN_POSITION + 0.25;
+    private final double flipperStartingPosition = 0.25;
+    private final int flipperFinalPosition = 1;
     public DcMotor elevatorMotor;
     public TouchSensor upperTouchSensor;
     public TouchSensor lowerTouchSensor;
@@ -34,7 +36,9 @@ public class AutonomousCompetition1 extends OpMode {
     public DcMotor winderMotor = null;
     public DcMotor leftMotor = null;
     public DcMotor rightMotor = null;
-    public TouchSensor wallTouch = TeamShared.getRobotPart( hardwareMap, RobotPart.walltouchsensor );
+    public TouchSensor wallTouch = null;
+    public Servo leftFlipper = null;
+    public Servo rightFlipper = null;
     Auto state_s;
     // vision stuff
     int imageIndex = 0;
@@ -49,8 +53,18 @@ public class AutonomousCompetition1 extends OpMode {
 
     @Override
     public void init() {
+
+
+        leftFlipper = TeamShared.getRobotPart( hardwareMap, RobotPart.lflipperservo );
+        leftFlipper.setPosition( flipperStartingPosition );
+
+        rightFlipper = TeamShared.getRobotPart( hardwareMap, RobotPart.rflipperservo );
+        rightFlipper.setPosition( flipperFinalPosition );
+
+        wallTouch = TeamShared.getRobotPart( hardwareMap, RobotPart.walltouchsensor );
+
         beaconPusher = TeamShared.getRobotPart( hardwareMap, RobotPart.beaconservo );
-        beaconPusher.setPosition( (Servo.MAX_POSITION / Servo.MIN_POSITION) / 2.0 );
+        beaconPusher.setPosition( 0.5 );
 
         visualTargets = new VisualTargets();
         imageToTrack = visualTargets.getTrackable( imageIndex );
@@ -64,13 +78,17 @@ public class AutonomousCompetition1 extends OpMode {
         telemetry.addLine( "Initializing winder motor" );
 
         leftMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.lmotor );
-        rightMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.rmotor );
-
-        leftMotor.setDirection( DcMotor.Direction.FORWARD );
-        leftMotor.setPower( 0 );
-
         leftMotor.setDirection( DcMotor.Direction.REVERSE );
+        leftMotor.setPower( 0 );
+        leftMotor.setMode( DcMotor.RunMode.RUN_TO_POSITION );
+        leftMotor.setTargetPosition( leftMotor.getCurrentPosition() - 6000 );
+
+        rightMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.rmotor );
+        rightMotor.setDirection( DcMotor.Direction.FORWARD );
         rightMotor.setPower( 0 );
+        rightMotor.setMode( DcMotor.RunMode.RUN_TO_POSITION );
+        rightMotor.setTargetPosition( rightMotor.getCurrentPosition() + 6000 );
+
         telemetry.addLine( "Initialized lmotor and rmotor" );
 
         scoopServo = TeamShared.getRobotPart( hardwareMap, RobotPart.scoopservo );
@@ -172,8 +190,9 @@ public class AutonomousCompetition1 extends OpMode {
                 if (getRuntime() > 3 || wallTouch.isPressed()) {
                     state_s = Auto.STOP;
                 } else {
-                    rightMotor.setPower( .7 );
-                    leftMotor.setPower( .7 );
+
+                    rightMotor.setPower( 1 );
+                    leftMotor.setPower( 1 );
                 }
             case STOP:
                 winderMotor.setPower( noPower );

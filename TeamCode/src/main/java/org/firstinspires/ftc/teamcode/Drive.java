@@ -32,7 +32,7 @@ public class Drive extends OpMode {
     public void loop() {
         double powerLevel = 0.6;
 
-        leftMotor.setPower( powerLevel * gamepad1.left_stick_y );
-        rightMotor.setPower( powerLevel * gamepad1.right_stick_y );
+        leftMotor.setPower( powerLevel * gamepad1.right_stick_y );
+        rightMotor.setPower( powerLevel * gamepad1.left_stick_y );
     }
 }
