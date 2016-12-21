@@ -60,50 +60,48 @@ public class AutonomousCompetition1 extends OpMode {
 
         rightFlipper = TeamShared.getRobotPart( hardwareMap, RobotPart.rflipperservo );
         rightFlipper.setPosition( flipperFinalPosition );
+        telemetry.addLine( "Initialized flippers" );
 
         wallTouch = TeamShared.getRobotPart( hardwareMap, RobotPart.walltouchsensor );
+        telemetry.addLine( "Initialized wall touch sensor" );
 
         beaconPusher = TeamShared.getRobotPart( hardwareMap, RobotPart.beaconservo );
         beaconPusher.setPosition( 0.5 );
+        telemetry.addLine( "Initialized beacon pusher" );
 
         visualTargets = new VisualTargets();
         imageToTrack = visualTargets.getTrackable( imageIndex );
-
+        telemetry.addLine( "Initialized Vuforia" );
 
         winderMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.windermotor );
         winderMotor.setDirection( DcMotor.Direction.FORWARD );
         winderMotor.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
         winderMotor.setPower( noPower );
 
-        telemetry.addLine( "Initializing winder motor" );
+        telemetry.addLine( "Initialized winder motor" );
 
         leftMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.lmotor );
         leftMotor.setDirection( DcMotor.Direction.REVERSE );
         leftMotor.setPower( 0 );
-        leftMotor.setMode( DcMotor.RunMode.RUN_TO_POSITION );
-        leftMotor.setTargetPosition( leftMotor.getCurrentPosition() - 6000 );
 
         rightMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.rmotor );
         rightMotor.setDirection( DcMotor.Direction.FORWARD );
         rightMotor.setPower( 0 );
-        rightMotor.setMode( DcMotor.RunMode.RUN_TO_POSITION );
-        rightMotor.setTargetPosition( rightMotor.getCurrentPosition() + 6000 );
+
 
         telemetry.addLine( "Initialized lmotor and rmotor" );
 
         scoopServo = TeamShared.getRobotPart( hardwareMap, RobotPart.scoopservo );
         scoopServo.setPosition( (startingPosition / finalPosition) / 2.0 );
+        telemetry.addLine( "Initialized scoop" );
 
         elevatorMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.elevatormotor );
-
         elevatorMotor.setDirection( DcMotorSimple.Direction.FORWARD );
-
         elevatorMotor.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
-
         elevatorMotor.setPower( 0 );
-
         lowerTouchSensor = TeamShared.getRobotPart( hardwareMap, RobotPart.elevatortouchlower );
         upperTouchSensor = TeamShared.getRobotPart( hardwareMap, RobotPart.elevatortouchupper );
+        telemetry.addLine( "Initialized elevator" );
 
         telemetry.addData( "Tracking ", imageToTrack.getName() );
         telemetry.addData( "Alliance ", alliance.name() );
