@@ -1,19 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-
-@Disabled
-@Autonomous(name = "Autonomous Competiton 1", group = "Comp")
-public class AutonomousCompetition1 extends OpMode {
+@Autonomous(name = "Autonomous Competition 2")
+public class AutonomousCompetition2 extends OpMode {
 
     // winder stuff
     private final int noPower = 0;
@@ -33,16 +28,14 @@ public class AutonomousCompetition1 extends OpMode {
     public TouchSensor wallTouch = null;
     public Servo leftFlipper = null;
     public Servo rightFlipper = null;
-    AutoState state_s;
-    // vision stuff
-    int imageIndex = 0;
-    // driving stuff
+    AutoState currentState;
+
     // alliance stuff
     int allianceIndex = 0;
     Alliance alliance = Alliance.Blue;
     private Servo beaconPusher = null;
-    private VisualTargets visualTargets;
-    private VuforiaTrackable imageToTrack;
+
+
     private double elevatorSpeed;
 
     @Override
@@ -63,8 +56,7 @@ public class AutonomousCompetition1 extends OpMode {
         beaconPusher.setPosition(0.5);
         telemetry.addLine("Initialized beacon pusher");
 
-        visualTargets = new VisualTargets();
-        imageToTrack = visualTargets.getTrackable(imageIndex);
+
         telemetry.addLine("Initialized Vuforia");
 
         winderMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.windermotor);
@@ -97,25 +89,19 @@ public class AutonomousCompetition1 extends OpMode {
         upperTouchSensor = TeamShared.getRobotPart(hardwareMap, RobotPart.elevatortouchupper);
         telemetry.addLine("Initialized elevator");
 
-        telemetry.addData("Tracking ", imageToTrack.getName());
+
         telemetry.addData("Alliance ", alliance.name());
 
-        state_s = AutoState.START;
+        currentState = AutoState.START;
     }
 
 
     @Override
     public void init_loop() {
-        if (gamepad1.x) {
-            imageIndex = imageIndex + 1 % 4;
-            imageToTrack = visualTargets.getTrackable(imageIndex);
-        }
         if (gamepad1.y) {
             allianceIndex = (allianceIndex + 1) % 2;
             alliance = Alliance.values()[allianceIndex];
         }
-
-        telemetry.addData("Tracking ", imageToTrack.getName());
         telemetry.addData("Alliance ", alliance.name());
     }
 
@@ -123,18 +109,18 @@ public class AutonomousCompetition1 extends OpMode {
     @Override
     public void loop() {
         elevatorSpeed = 0.5;
-        switch (state_s) {
+        switch (currentState) {
             case START:
                 resetStartTime();
 
-                state_s = AutoState.SHOOT;
+                currentState = AutoState.SHOOT;
                 break;
             case SHOOT:
                 if (getRuntime() < WindupTime) {
                     winderMotor.setPower(WindupPower);
                 } else {
                     winderMotor.setPower(noPower);
-                    state_s = AutoState.ELEVATE;
+                    currentState = AutoState.ELEVATE;
                 }
                 break;
 
@@ -147,7 +133,7 @@ public class AutonomousCompetition1 extends OpMode {
                     elevatorMotor.setDirection(DcMotorSimple.Direction.REVERSE);
                     resetStartTime();
 
-                    state_s = AutoState.SCOOP;
+                    currentState = AutoState.SCOOP;
                 }
                 break;
             case SCOOP:
@@ -156,7 +142,7 @@ public class AutonomousCompetition1 extends OpMode {
                 } else {
                     scoopServo.setPosition(startingPosition);
                     resetStartTime();
-                    state_s = AutoState.LOWER;
+                    currentState = AutoState.LOWER;
                 }
                 break;
             case LOWER:
@@ -166,7 +152,7 @@ public class AutonomousCompetition1 extends OpMode {
                     elevatorMotor.setPower(noPower);
                     resetStartTime();
 
-                    state_s = AutoState.SHOOT2;
+                    currentState = AutoState.SHOOT2;
                 }
                 break;
             case SHOOT2:
@@ -175,12 +161,12 @@ public class AutonomousCompetition1 extends OpMode {
                 } else {
                     winderMotor.setPower(noPower);
                     resetStartTime();
-                    state_s = AutoState.BUMP;
+                    currentState = AutoState.BUMP;
                 }
                 break;
             case BUMP:
                 if (getRuntime() > 3 || wallTouch.isPressed()) {
-                    state_s = AutoState.STOP;
+                    currentState = AutoState.STOP;
                 } else {
 
                     rightMotor.setPower(1);
@@ -192,59 +178,17 @@ public class AutonomousCompetition1 extends OpMode {
                 stopDriveMotors();
                 break;
             default:
-                state_s = AutoState.STOP;
+                currentState = AutoState.STOP;
                 break;
         }
-        telemetry.addData("State ", state_s);
+        telemetry.addData("State ", currentState);
         telemetry.addData("Time ", getRuntime());
     }
 
-    public void tryToDrive() {
-
-        Orientation orientation = visualTargets.getOrientation(imageToTrack);
-        if (orientation != null) {
-
-            telemetry.addLine(String.format("\n[X= %d ]\n[Y= %d ]\n[X= %d ]", orientation.firstAngle, orientation.secondAngle, orientation.thirdAngle));
-
-            telemetry.addData("Orientation", orientation.toString());
-
-            driveToImage(orientation.secondAngle);
-        } else {
-            telemetry.addData("Not seeing", imageToTrack.getName());
-            stopDriveMotors();
-        }
-    }
 
     private void stopDriveMotors() {
         leftMotor.setPower(0);
         rightMotor.setPower(0);
-    }
-
-    private void driveToImage(float yAxisAngle) {
-        final double slowPower = 0.15;
-        final double fastPower = .3;
-        final double noPower = 0;
-        final double angleThreshold = 0.4;
-
-        // stop if hitting the wall
-        if (wallTouch.isPressed()) {
-            stopDriveMotors();
-            state_s = AutoState.STOP;
-        }
-
-        if (yAxisAngle < -angleThreshold) {
-            leftMotor.setPower(slowPower);
-            rightMotor.setPower(noPower);
-            telemetry.addLine("Turn right");
-        } else if (yAxisAngle > angleThreshold) {
-            leftMotor.setPower(noPower);
-            rightMotor.setPower(slowPower);
-            telemetry.addLine("Turn left");
-        } else {
-            leftMotor.setPower(fastPower);
-            rightMotor.setPower(fastPower);
-            telemetry.addLine("Straight");
-        }
     }
 
 }
