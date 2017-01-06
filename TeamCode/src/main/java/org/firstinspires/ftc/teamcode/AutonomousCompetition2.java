@@ -25,6 +25,10 @@ public class AutonomousCompetition2 extends OpMode {
     public DcMotor winderMotor = null;
     public DcMotor leftMotor = null;
     public DcMotor rightMotor = null;
+
+    public int rightMotorStartPosition;
+    public int leftMotorStartPosition;
+
     public TouchSensor wallTouch = null;
     public Servo leftFlipper = null;
     public Servo rightFlipper = null;
@@ -56,9 +60,7 @@ public class AutonomousCompetition2 extends OpMode {
         beaconPusher.setPosition(0.5);
         telemetry.addLine("Initialized beacon pusher");
 
-
-        telemetry.addLine("Initialized Vuforia");
-
+        
         winderMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.windermotor);
         winderMotor.setDirection(DcMotor.Direction.FORWARD);
         winderMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -68,10 +70,12 @@ public class AutonomousCompetition2 extends OpMode {
 
         leftMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.lmotor);
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftMotor.setPower(0);
 
         rightMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.rmotor);
         rightMotor.setDirection(DcMotor.Direction.FORWARD);
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightMotor.setPower(0);
 
 
@@ -103,16 +107,22 @@ public class AutonomousCompetition2 extends OpMode {
             alliance = Alliance.values()[allianceIndex];
         }
         telemetry.addData("Alliance ", alliance.name());
+        rightMotorStartPosition = rightMotor.getCurrentPosition();
+        leftMotorStartPosition = leftMotor.getCurrentPosition();
+
+        int delta = 20;
+        rightMotor.setTargetPosition(rightMotorStartPosition + delta);
+        leftMotor.setTargetPosition(leftMotorStartPosition + delta);
     }
 
 
     @Override
     public void loop() {
         elevatorSpeed = 0.5;
+
         switch (currentState) {
             case START:
                 resetStartTime();
-
                 currentState = AutoState.SHOOT;
                 break;
             case SHOOT:
@@ -165,13 +175,15 @@ public class AutonomousCompetition2 extends OpMode {
                 }
                 break;
             case BUMP:
-                if (getRuntime() > 3 || wallTouch.isPressed()) {
+                if (getRuntime() > 2 || wallTouch.isPressed()) {
                     currentState = AutoState.STOP;
                 } else {
 
-                    rightMotor.setPower(1);
-                    leftMotor.setPower(1);
+                    rightMotor.setPower(.5);
+                    leftMotor.setPower(.5);
                 }
+                break;
+
             case STOP:
                 winderMotor.setPower(noPower);
                 elevatorMotor.setPower(noPower);
@@ -183,6 +195,10 @@ public class AutonomousCompetition2 extends OpMode {
         }
         telemetry.addData("State ", currentState);
         telemetry.addData("Time ", getRuntime());
+
+        telemetry.addData("lmotor position", leftMotor.getCurrentPosition());
+
+        telemetry.addData("rmotor position", rightMotor.getCurrentPosition());
     }
 
 

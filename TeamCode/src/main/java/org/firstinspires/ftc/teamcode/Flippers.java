@@ -14,33 +14,62 @@ public class Flippers extends OpMode {
     public Servo leftFlipper = null;
     public Servo rightFlipper = null;
 
+    private boolean isEnabled = false;
+
     @Override
     public void init() {
 
         leftFlipper = TeamShared.getRobotPart(hardwareMap, RobotPart.lflipperservo);
-        leftFlipper.setPosition(startingPosition);
+        closeLeft();
 
         rightFlipper = TeamShared.getRobotPart(hardwareMap, RobotPart.rflipperservo);
-        rightFlipper.setPosition(finalPosition);
+        closeRight();
         telemetry.addLine(String.format("Flippers will range from %s to %s", startingPosition, finalPosition));
     }
 
     @Override
     public void loop() {
 
-        if (gamepad1.left_bumper) {
-            leftFlipper.setPosition(finalPosition);
-        } else {
-            leftFlipper.setPosition(startingPosition);
+        if (gamepad1.a) {
+            isEnabled = true;
         }
 
-        if (gamepad1.right_bumper) {
-            rightFlipper.setPosition(startingPosition);
-        } else {
-            rightFlipper.setPosition(finalPosition);
+        if (gamepad1.b) {
+            isEnabled = false;
+            closeRight();
+            closeLeft();
         }
 
-        telemetry.addLine(String.format("Flippers L %s R %s", gamepad1.left_bumper, gamepad1.right_bumper));
+        if (isEnabled) {
+            if (gamepad1.left_bumper) {
+                closeLeft();
+            } else {
+                openLeft();
+            }
+
+            if (gamepad1.right_bumper) {
+                closeRight();
+            } else {
+                openRight();
+            }
+        }
+        telemetry.addLine(String.format("Flippers Enabled %s L %s R %s", isEnabled, gamepad1.left_bumper, gamepad1.right_bumper));
+    }
+
+    private void openRight() {
+        rightFlipper.setPosition(finalPosition);
+    }
+
+    private void closeRight() {
+        rightFlipper.setPosition(startingPosition);
+    }
+
+    private void openLeft() {
+        leftFlipper.setPosition(startingPosition);
+    }
+
+    private void closeLeft() {
+        leftFlipper.setPosition(finalPosition);
     }
 }
 
