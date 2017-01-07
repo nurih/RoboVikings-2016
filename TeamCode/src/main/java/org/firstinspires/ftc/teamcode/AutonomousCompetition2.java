@@ -47,10 +47,10 @@ public class AutonomousCompetition2 extends OpMode {
 
 
         leftFlipper = TeamShared.getRobotPart(hardwareMap, RobotPart.lflipperservo);
-        leftFlipper.setPosition(flipperStartingPosition);
+        leftFlipper.setPosition(flipperFinalPosition);
 
         rightFlipper = TeamShared.getRobotPart(hardwareMap, RobotPart.rflipperservo);
-        rightFlipper.setPosition(flipperFinalPosition);
+        rightFlipper.setPosition(flipperStartingPosition);
         telemetry.addLine("Initialized flippers");
 
         wallTouch = TeamShared.getRobotPart(hardwareMap, RobotPart.walltouchsensor);
@@ -175,7 +175,7 @@ public class AutonomousCompetition2 extends OpMode {
                 }
                 break;
             case BUMP:
-                if (getRuntime() > 2 || wallTouch.isPressed()) {
+                if (getRuntime() > 2.26 || wallTouch.isPressed()) {
                     currentState = AutoState.STOP;
                 } else {
 
