@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-@Autonomous(name = "Autonomous w/ Cap Ball Bump")
-public class AutonomousCompetition2 extends OpMode {
+@Autonomous(name = "Autonomous NO CAP BALL BUMP")
+public class AutonomousCompetition2NoDrive extends OpMode {
 
     // winder stuff
     private final int noPower = 0;
@@ -60,7 +60,7 @@ public class AutonomousCompetition2 extends OpMode {
         beaconPusher.setPosition(0.5);
         telemetry.addLine("Initialized beacon pusher");
 
-        
+
         winderMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.windermotor);
         winderMotor.setDirection(DcMotor.Direction.FORWARD);
         winderMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -171,19 +171,9 @@ public class AutonomousCompetition2 extends OpMode {
                 } else {
                     winderMotor.setPower(noPower);
                     resetStartTime();
-                    currentState = AutoState.BUMP;
-                }
-                break;
-            case BUMP:
-                if (getRuntime() > 2.26 || wallTouch.isPressed()) {
                     currentState = AutoState.STOP;
-                } else {
-
-                    rightMotor.setPower(.5);
-                    leftMotor.setPower(.5);
                 }
                 break;
-
             case STOP:
                 winderMotor.setPower(noPower);
                 elevatorMotor.setPower(noPower);
