@@ -17,14 +17,14 @@ public class line_follow extends OpMode {
     public DcMotor rightMotor = null;
     public DcMotor leftMotor = null;
     public OpticalDistanceSensor lineFollower;
-    public TouchSensor bumper;
+    public TouchSensor wallTouch;
 
     @Override
     public void init() {
         rightMotor = TeamShared.getRobotPart(hardwareMap, RobotPart.rmotor);
-
+        lineFollower = TeamShared.getRobotPart(hardwareMap, RobotPart.lineFollower);
         leftMotor =TeamShared.getRobotPart(hardwareMap, RobotPart.lmotor);
-        bumper = TeamShared.getRobotPart(hardwareMap, RobotPart.walltouchsensor);
+        wallTouch = TeamShared.getRobotPart(hardwareMap, RobotPart.walltouchsensor);
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor.setPower(noPower);
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -38,7 +38,7 @@ public class line_follow extends OpMode {
         telemetry.addLine(String.format("Line Follower Light Level: ", lineFollower.getLightDetected()));
         telemetry.update();
 
-        if (bumper.isPressed()) {
+        if (wallTouch.isPressed()) {
             leftMotor.setPower(noPower);
             rightMotor.setPower(noPower);
         } else {

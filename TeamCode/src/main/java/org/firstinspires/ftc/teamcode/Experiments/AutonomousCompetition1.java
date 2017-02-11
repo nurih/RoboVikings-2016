@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Experiments;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -10,6 +10,11 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.teamcode.Alliance;
+import org.firstinspires.ftc.teamcode.AutoState;
+import org.firstinspires.ftc.teamcode.RobotPart;
+import org.firstinspires.ftc.teamcode.TeamShared;
+import org.firstinspires.ftc.teamcode.VisualTargets;
 
 @Disabled
 @Autonomous(name = "Autonomous Competiton 1", group = "Comp")

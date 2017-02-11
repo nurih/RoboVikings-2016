@@ -10,9 +10,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class Drive extends OpMode {
     public DcMotor leftMotor = null;
     public DcMotor rightMotor = null;
+    private double powerLevel;
 
     @Override
     public void init() {
+        powerLevel = 0;
         leftMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.lmotor );
         rightMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.rmotor );
 
@@ -30,8 +32,14 @@ public class Drive extends OpMode {
 
     @Override
     public void loop() {
-        double powerLevel = 0.6;
-
+        if (gamepad1.x)
+        {
+            powerLevel = 0.4;
+        }
+        else if (gamepad1.y)
+        {
+            powerLevel = 1;
+        }
         leftMotor.setPower( powerLevel * gamepad1.right_stick_y );
         rightMotor.setPower( powerLevel * gamepad1.left_stick_y );
     }

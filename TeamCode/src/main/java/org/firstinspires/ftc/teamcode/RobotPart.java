@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
@@ -75,6 +76,11 @@ public enum RobotPart {
     * Wall Touch Sensor (autonomous)
     * */
     walltouchsensor(TouchSensor.class),
+
+    /*
+    * Line Follow Sensor (optical distance sensor)
+    * */
+    lineFollower(OpticalDistanceSensor.class),
     ;
 
     private Class<? extends HardwareDevice> _partType;
