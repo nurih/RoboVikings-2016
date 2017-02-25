@@ -5,5 +5,5 @@ package org.firstinspires.ftc.teamcode;
  */
 
 public enum AutoState {
-    START, SHOOT, CHECK, ELEVATE, SCOOP, LOWER, SHOOT2, BUMP, STOP,
+    START, SHOOT, CHECK, ELEVATE, SCOOP, LOWER, SHOOT2, BUMP, STOP, SIT
 }
