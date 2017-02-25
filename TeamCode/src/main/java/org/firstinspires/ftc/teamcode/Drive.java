@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 
 
 @TeleOp(name = "Drive", group = "Mini Op")
@@ -31,7 +31,7 @@ public class Drive extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addLine(String.format("Driving Forward: %" , isDrivingForward));
+        telemetry.addLine(String.format("Driving Forward: " + isDrivingForward));
         if (gamepad1.x)
         {
             powerLevel = 0.4;

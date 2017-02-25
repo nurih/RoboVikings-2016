@@ -3,18 +3,23 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @Autonomous(name = "Beacon Autonomous")
 public class BeaconAutonomous extends OpMode {
-
     private final double initialPosition = 0.5;
     private final double change = 0.3;
     private ColorSensor colorSensor = null;
     private Servo beaconPusher = null;
+    private TouchSensor Bumper;
     private int blueThreshold = 1;
     private int redThreshold = 2;
     private Alliance team = Alliance.Blue;
+    private BeaconState currentState;
+    private OpticalDistanceSensor follower;
+
     @Override
     public void init() {
 
@@ -30,6 +35,7 @@ public class BeaconAutonomous extends OpMode {
 
         beaconPusher.setPosition(initialPosition);
         telemetry.addLine("Initialized servo");
+        currentState = BeaconState.START;
     }
 
     @Override
@@ -47,6 +53,20 @@ public class BeaconAutonomous extends OpMode {
             telemetry.addLine(String.format("Colors below thresholds Blue %s | Red %s", colorSensor.blue(), colorSensor.red()));
             beaconPusher.setPosition(initialPosition);
         }
+        switch (currentState) {
+            case START:
+                resetStartTime();
+                currentState = BeaconState.DRIVE;
+                break;
+            case DRIVE:
+                if (follower.getLightDetected() >= 0.5 || Bumper.isPressed()) {
+
+                }
+        }
+    }
+
+    enum BeaconState {
+        START, DRIVE, FOLLOW, PRESS
     }
 }
 

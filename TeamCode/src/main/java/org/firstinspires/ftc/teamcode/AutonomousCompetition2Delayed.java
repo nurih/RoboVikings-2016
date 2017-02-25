@@ -18,25 +18,22 @@ public class AutonomousCompetition2Delayed extends OpMode {
     private final double finalPosition = Servo.MIN_POSITION + 0.25;
     private final double flipperStartingPosition = 0.25;
     private final int flipperFinalPosition = 1;
-    public DcMotor elevatorMotor;
-    public TouchSensor upperTouchSensor;
-    public TouchSensor lowerTouchSensor;
-    public Servo scoopServo = null;
-    public DcMotor winderMotor = null;
-    public DcMotor leftMotor = null;
-    public DcMotor rightMotor = null;
-
-    public int rightMotorStartPosition;
-    public int leftMotorStartPosition;
-
-    public TouchSensor wallTouch = null;
-    public Servo leftFlipper = null;
-    public Servo rightFlipper = null;
     AutoState currentState;
-
     // alliance stuff
     int allianceIndex = 0;
     Alliance alliance = Alliance.Blue;
+    private DcMotor elevatorMotor;
+    private TouchSensor upperTouchSensor;
+    private TouchSensor lowerTouchSensor;
+    private Servo scoopServo = null;
+    private DcMotor winderMotor = null;
+    private DcMotor leftMotor = null;
+    private DcMotor rightMotor = null;
+    private int rightMotorStartPosition;
+    private int leftMotorStartPosition;
+    private TouchSensor wallTouch = null;
+    private Servo leftFlipper = null;
+    private Servo rightFlipper = null;
     private Servo beaconPusher = null;
 
 
@@ -123,13 +120,7 @@ public class AutonomousCompetition2Delayed extends OpMode {
         switch (currentState) {
             case START:
                 resetStartTime();
-                currentState = AutoState.SIT;
-                break;
-            case SIT: if (getRuntime()>= 10){
-
                 currentState = AutoState.SHOOT;
-                resetStartTime();
-            }
                 break;
             case SHOOT:
                 if (getRuntime() < WindupTime) {
@@ -177,7 +168,14 @@ public class AutonomousCompetition2Delayed extends OpMode {
                 } else {
                     winderMotor.setPower(noPower);
                     resetStartTime();
+                    currentState = AutoState.SIT;
+                }
+                break;
+            case SIT:
+                if (getRuntime() >= 15) {
+
                     currentState = AutoState.BUMP;
+                    resetStartTime();
                 }
                 break;
             case BUMP:
