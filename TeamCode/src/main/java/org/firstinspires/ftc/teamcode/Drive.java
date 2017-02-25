@@ -11,19 +11,18 @@ public class Drive extends OpMode {
     public DcMotor leftMotor = null;
     public DcMotor rightMotor = null;
     private double powerLevel;
-
+    private boolean isDrivingForward;
     @Override
     public void init() {
         powerLevel = 0;
         leftMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.lmotor );
         rightMotor = TeamShared.getRobotPart( hardwareMap, RobotPart.rmotor );
 
+        SetMotorDirections(true);
 
-        leftMotor.setDirection( DcMotor.Direction.REVERSE );
         leftMotor.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
         leftMotor.setPower( 0 );
 
-        rightMotor.setDirection( DcMotor.Direction.FORWARD );
         rightMotor.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
         rightMotor.setPower( 0 );
 
@@ -32,6 +31,7 @@ public class Drive extends OpMode {
 
     @Override
     public void loop() {
+        telemetry.addLine(String.format("Driving Forward: %" , isDrivingForward));
         if (gamepad1.x)
         {
             powerLevel = 0.4;
@@ -40,7 +40,43 @@ public class Drive extends OpMode {
         {
             powerLevel = 1;
         }
-        leftMotor.setPower( powerLevel * gamepad1.right_stick_y );
-        rightMotor.setPower( powerLevel * gamepad1.left_stick_y );
+
+        if(gamepad1.dpad_up)
+        {
+            SetMotorDirections( true);
+        }
+        if(gamepad1.dpad_down)
+        {
+            SetMotorDirections(false);
+        }
+
+        SetMotorPower(powerLevel, isDrivingForward);
+
+    }
+
+
+    private void SetMotorDirections(boolean isForward){
+        isDrivingForward = isForward;
+
+        if(isForward)
+        {
+            leftMotor.setDirection( DcMotor.Direction.REVERSE );
+            rightMotor.setDirection( DcMotor.Direction.FORWARD );}
+        else{
+            leftMotor.setDirection( DcMotor.Direction.FORWARD );
+            rightMotor.setDirection( DcMotor.Direction.REVERSE );
+        }
+    }
+    private void SetMotorPower(double level, boolean isForward) {
+        if (isForward)
+        {
+            leftMotor.setPower( level * gamepad1.right_stick_y );
+            rightMotor.setPower( level * gamepad1.left_stick_y );
+        }
+        else
+        {
+            leftMotor.setPower( level * gamepad1.left_stick_y );
+            rightMotor.setPower( level * gamepad1.right_stick_y );
+        }
     }
 }
